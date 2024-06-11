@@ -1,0 +1,47 @@
+body {
+    padding: 50px;
+}
+
+.container {
+    width: 50%;
+}
+
+.currency-input {
+    position: relative;
+}
+.currency-input input {
+    padding-left: 30px;
+}
+.currency-input span {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 16px;
+}
+
+.despesa {
+    color: rgb(255, 0, 0)!important;
+}
+
+.receita {
+    color: rgb(1, 194, 1)!important;
+}
+
+.actions {
+    display: flex!important;
+    gap: 10px;
+}
+
+.alert {
+    width: 30%;
+    height: 120px;
+    display: block;
+}
+
+.cards {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
