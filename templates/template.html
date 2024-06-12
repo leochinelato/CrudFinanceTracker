@@ -13,43 +13,7 @@
     {% block content %}
     {% endblock %}
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Nova transação</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <form action=" {{url_for('create_new_transaction')}} " method="post">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Descricao</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="description" required>
-              </div>
-            
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Valor</label>
-                <div class="currency-input">
-                  <span>R$</span>
-                  <input type="number" step="0.01" class="form-control" id="exampleInputPassword1" name="value" required>
-                </div>
-              </div>
-            
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Data</label>
-                <input type="date" class="form-control" id="exampleInputPassword1" name="date" required>
-              </div>
-
-              <button name="tipo_transacao" value="receita" type="submit" class="btn btn-primary">Adicionar Receita</button>
-              <button name="tipo_transacao" value="despesa" type="submit" class="btn btn-danger">Adicionar Despesa</button>
-            
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   </body>
 </html>

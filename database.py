@@ -57,6 +57,18 @@ def store_db(descricao, valor_transacao, data_transacao, tipo_transacao):
     conn.close()
 
 
+def update_line(tabela, descricao, valor_transacao, data_transacao, id_transacao):
+    conn = sqlite3.connect("transacoes.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        f"UPDATE {tabela} SET descricao = ?, valor = ?, data = ? WHERE id = ?",
+        (descricao, valor_transacao, data_transacao, id_transacao),
+    )
+    conn.commit()
+    conn.close()
+
+
 def remove_line(tabela, valor):
     conn = sqlite3.connect("transacoes.db")
     cursor = conn.cursor()
@@ -109,6 +121,16 @@ def get_all_data():
     conn.close()
 
     return combined
+
+
+def get_by_id(id, tabela):
+    conn = sqlite3.connect("transacoes.db")
+    cursor = conn.cursor()
+
+    cursor.execute(f"SELECT * FROM {tabela}s WHERE id = ?", (id,))
+    registro = cursor.fetchone()
+
+    return registro
 
 
 def get_receitas_sum():

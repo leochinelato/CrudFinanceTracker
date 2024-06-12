@@ -1,0 +1,42 @@
+{% extends "template.html" %}
+
+{% block content %}
+
+<form
+    {% if transaction %}
+        action="{{ url_for('update_transaction', transaction_id=transaction.id, tipo_transacao=tipo_transacao) }}"
+    {% else %}
+        action="{{ url_for('create_new_transaction') }}"
+    {% endif %}
+
+    method="POST"
+>
+
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Descricao</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="description"
+            required {% if transaction %} value="{{ transaction.description }}" {% endif %}>
+    </div>
+
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Valor</label>
+        <div class="currency-input">
+            <span>R$</span>
+            <input step="0.01" class="form-control" id="exampleInputPassword1" name="value" required {% if transaction %} value="{{ transaction.amount }}" {% endif %}>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Data</label>
+        <input type="date" class="form-control" id="exampleInputPassword1" name="date" required {% if transaction %} value="{{ transaction.date }}" {% endif %}>
+    </div>
+
+    {% if transaction %}
+        <button name="tipo_transacao" value="{{ tipo_transacao }}" type="submit" class="btn btn-primary">Salvar {{ tipo_transacao }}</button>
+    {% else %}
+        <button name="tipo_transacao" value="receita" type="submit" class="btn btn-primary">Adicionar Receita</button>
+        <button name="tipo_transacao" value="despesa" type="submit" class="btn btn-danger">Adicionar Despesa</button>
+    {% endif %}
+</form>
+
+{% endblock %}

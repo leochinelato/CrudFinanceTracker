@@ -1,62 +1,63 @@
 {% extends "template.html" %}
 {% block content %}
 
-    <div class="container">
-        <h1>{{ greeting }}, Leonardo.</h1>
-        <div class="cards">
-          <div class="alert alert-success" role="alert">
-            <h2>Receitas</h2>
-            <h5>R$ {{ total_receitas }}</h5>
-          </div>
-          <div class="alert alert-danger" role="alert">
-            <h2>Despesas</h2>
-            <h5>R$ {{ total_despesas }}</h5>
-          </div>
-
-          <div class="alert alert-primary" role="alert">
-            <h2>Saldo Total</h2>
-            <h5>R$ {{ saldo_total }}</h5>
-          </div>
-        </div>
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Data</th>
-                <th scope="col">Descrição</th>
-                <th scope="col">Valor</th>
-                <th scope="col">Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-            {% for item in data %}
-              <tr>
-                <td>{{ item.date }}</td>
-                <td>{{ item.description }}</td>
-                <td class="{{ 'receita' if item.type == 'receita' else 'despesa' }}">R$ {{ item.amount }}</td>
-                <td class="actions">
-                  <!-- DELETE -->
-                  <form action="{{ url_for('delete_transaction') }}" method="post">
-                    <input type="hidden" name="tabela" value="{{ item.type }}s">
-                    <input type="hidden" name="id" value="{{ item.id }}">
-                    <button type="submit" class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
-                  </form>
-                  <!-- UPDATE -->
-                  <form>
-                    <input type="hidden" name="tabela" value="{{ item.type }}s">
-                    <input type="hidden" name="id" value="{{ item.id }}">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-pencil-fill"></i></button>
-                  </form>
-
-                </td>
-              </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-
-
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Nova Transação
-          </button>
+<div class="container">
+  <h1>{{ greeting }}, Leonardo.</h1>
+  <div class="cards">
+    <div class="alert alert-success" role="alert">
+      <h2>Receitas</h2>
+      <h5>R$ {{ total_receitas }}</h5>
     </div>
+    <div class="alert alert-danger" role="alert">
+      <h2>Despesas</h2>
+      <h5>R$ {{ total_despesas }}</h5>
+    </div>
+
+    <div class="alert alert-primary" role="alert">
+      <h2>Saldo Total</h2>
+      <h5>R$ {{ saldo_total }}</h5>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Data</th>
+        <th scope="col">Descrição</th>
+        <th scope="col">Valor</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in data %}
+      <tr>
+        <td>{{ item.date }}</td>
+        <td>{{ item.description }}</td>
+        <td class="{{ 'receita' if item.type == 'receita' else 'despesa' }}">R$ {{ item.amount }}</td>
+        <td class="actions">
+          <!-- DELETE -->
+          <form action="{{ url_for('delete_transaction') }}" method="POST">
+            <input type="hidden" name="tabela" value="{{ item.type }}s">
+            <input type="hidden" name="id" value="{{ item.id }}">
+            <button type="submit" class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
+          </form>
+
+          <a href="{{ url_for('form_edit_transaction', transaction_id=item.id, tipo_transacao=item.type) }}">
+            <button type="button" class="btn btn-primary"><i class="bi bi-pencil-fill"></i></button>
+          </a>
+
+
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <a href="{{ url_for('form_new_item') }}">
+    <button type="submit" class="btn btn-primary">
+      Nova Transação
+    </button>
+  </a>
+
+</div>
 
 {% endblock %}
