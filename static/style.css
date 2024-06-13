@@ -30,11 +30,11 @@ body {
     font-size: 16px;
 }
 
-.despesa {
+.expense {
     color: rgb(255, 0, 0)!important;
 }
 
-.receita {
+.income {
     color: rgb(1, 194, 1)!important;
 }
 

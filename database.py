@@ -9,75 +9,57 @@ def create_tables():
 
     cursor.execute(
         """
-    CREATE TABLE IF NOT EXISTS receitas (
+    CREATE TABLE IF NOT EXISTS transactions (
         id INTEGER PRIMARY KEY,
-        descricao TEXT,
-        valor REAL,
-        data TEXT
+        description TEXT,
+        value REAL,
+        date TEXT,
+        type TEXT
     )
     """
     )
+
+    conn.commit()
+    conn.close()
+
+
+def store_db(description, value, date, type):
+    conn = sqlite3.connect("transactions.db")
+    cursor = conn.cursor()
 
     cursor.execute(
         """
-    CREATE TABLE IF NOT EXISTS despesas (
-        id INTEGER PRIMARY KEY,
-        descricao TEXT,
-        valor REAL,
-        data TEXT
-    )
-    """
+    INSERT INTO transactions (description,value,date,type)
+    VALUES (?,?,?,?)
+    """,
+        (description, value, date, type),
     )
 
     conn.commit()
     conn.close()
 
 
-def store_db(descricao, valor_transacao, data_transacao, tipo_transacao):
-    conn = sqlite3.connect("transactions.db")
-    cursor = conn.cursor()
-
-    if tipo_transacao == "receita":
-        cursor.execute(
-            """
-        INSERT INTO receitas (descricao,valor,data)
-        VALUES (?,?,?)
-        """,
-            (descricao, valor_transacao, data_transacao),
-        )
-    elif tipo_transacao == "despesa":
-        cursor.execute(
-            """
-        INSERT INTO despesas (descricao,valor,data)
-        VALUES (?,?,?)""",
-            (descricao, abs(valor_transacao), data_transacao),
-        )
-
-    conn.commit()
-    conn.close()
-
-
-def update_line(tabela, descricao, valor_transacao, data_transacao, id_transacao):
+def update_line(description, value, date, id):
     conn = sqlite3.connect("transactions.db")
     cursor = conn.cursor()
 
     cursor.execute(
-        f"UPDATE {tabela} SET descricao = ?, valor = ?, data = ? WHERE id = ?",
-        (descricao, valor_transacao, data_transacao, id_transacao),
+        f"UPDATE transactions SET description = ?, value = ?, date = ? WHERE id = ?",
+        (description, value, date, id),
     )
     conn.commit()
     conn.close()
 
 
-def remove_line(tabela, valor):
+def remove_line(id):
     conn = sqlite3.connect("transactions.db")
     cursor = conn.cursor()
     try:
-        query = f"DELETE FROM {tabela} WHERE id = ?"
-        cursor.execute(query, (valor,))
+        query = f"DELETE FROM transactions WHERE id = ?"
+        cursor.execute(query, (id,))
         conn.commit()
     except sqlite3.Error as e:
-        print(f"Erro ao remover linha: {e}")
+        print(f"Error removing transaction: {e}")
     finally:
         cursor.close()
         conn.close()
@@ -87,74 +69,67 @@ def get_all_data():
     conn = sqlite3.connect("transactions.db")
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM receitas")
-    receitas = cursor.fetchall()
+    cursor.execute("SELECT * FROM transactions")
+    transactions = cursor.fetchall()
 
-    receitas = [
+    transactions = [
         {
-            "id": r[0],
-            "description": r[1],
-            "amount": transform_dot_in_comma(r[2]),
-            "date": datetime.strptime(r[3], "%Y-%m-%d").strftime("%d/%m/%Y"),
-            "type": "receita",
+            "id": t[0],
+            "description": t[1],
+            "value": transform_dot_in_comma(t[2]),
+            "date": datetime.strptime(t[3], "%Y-%m-%d").strftime("%d/%m/%Y"),
+            "type": t[4],
         }
-        for r in receitas
+        for t in transactions
     ]
 
-    cursor.execute("SELECT * FROM despesas")
-    despesas = cursor.fetchall()
-
-    despesas = [
-        {
-            "id": d[0],
-            "description": d[1],
-            "amount": transform_dot_in_comma(d[2]),
-            "date": datetime.strptime(d[3], "%Y-%m-%d").strftime("%d/%m/%Y"),
-            "type": "despesa",
-        }
-        for d in despesas
-    ]
-
-    combined = receitas + despesas
-    combined.sort(key=lambda x: datetime.strptime(x["date"], "%d/%m/%Y"), reverse=True)
+    transactions.sort(
+        key=lambda x: datetime.strptime(x["date"], "%d/%m/%Y"), reverse=True
+    )
 
     conn.close()
 
-    return combined
+    return transactions
 
 
-def get_by_id(id, tabela):
+def get_by_id(id):
     conn = sqlite3.connect("transactions.db")
     cursor = conn.cursor()
 
-    cursor.execute(f"SELECT * FROM {tabela}s WHERE id = ?", (id,))
-    registro = cursor.fetchone()
+    cursor.execute(f"SELECT * FROM transactions WHERE id = ?", (id,))
+    registry = cursor.fetchone()
 
-    return registro
+    return registry
 
 
-def get_receitas_sum():
+def get_income_sum():
     conn = sqlite3.connect("transactions.db")
     cursor = conn.cursor()
 
-    cursor.execute("SELECT SUM(valor) AS total_receitas FROM receitas")
-    total_receitas = cursor.fetchone()
+    cursor.execute(
+        "SELECT SUM(value) AS total_income FROM transactions WHERE type = ?",
+        ("income",),
+    )
+    total_income = cursor.fetchone()
 
     conn.close()
 
-    return total_receitas[0] if total_receitas[0] else 0
+    return total_income[0] if total_income[0] else 0
 
 
-def get_despesas_sum():
+def get_expense_sum():
     conn = sqlite3.connect("transactions.db")
     cursor = conn.cursor()
 
-    cursor.execute("SELECT SUM(valor) AS total_despesas FROM despesas")
-    total_despesas = cursor.fetchone()
+    cursor.execute(
+        "SELECT SUM(value) AS total_expenses FROM transactions where type = ?",
+        ("expense",),
+    )
+    total_expenses = cursor.fetchone()
 
     conn.close()
 
-    return total_despesas[0] if total_despesas[0] else 0
+    return total_expenses[0] if total_expenses[0] else 0
 
 
 create_tables()

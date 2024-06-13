@@ -4,7 +4,7 @@
 
 <form
     {% if transaction %}
-        action="{{ url_for('update_transaction', transaction_id=transaction.id, tipo_transacao=tipo_transacao) }}"
+        action="{{ url_for('update_transaction', id=transaction.id) }}"
     {% else %}
         action="{{ url_for('create_new_transaction') }}"
     {% endif %}
@@ -35,10 +35,10 @@
     </div>
 
     {% if transaction %}
-        <button name="tipo_transacao" value="{{ tipo_transacao }}" type="submit" class="btn btn-primary">Salvar {{ tipo_transacao }}</button>
+        <button name="type" value="{{ tipo_transacao }}" type="submit" class="btn btn-primary">Salvar {{ tipo_transacao }}</button>
     {% else %}
-        <button name="tipo_transacao" value="receita" type="submit" class="btn btn-primary">Adicionar Receita</button>
-        <button name="tipo_transacao" value="despesa" type="submit" class="btn btn-danger">Adicionar Despesa</button>
+        <button name="type" value="income" type="submit" class="btn btn-primary">Adicionar Receita</button>
+        <button name="type" value="expense" type="submit" class="btn btn-danger">Adicionar Despesa</button>
     {% endif %}
         <a href="{{ url_for('index') }}">
             <button type="button" class="btn">Voltar</button>

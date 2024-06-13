@@ -3,8 +3,8 @@ from database import (
     store_db,
     get_all_data,
     remove_line,
-    get_receitas_sum,
-    get_despesas_sum,
+    get_income_sum,
+    get_expense_sum,
     update_line,
     get_by_id,
 )
@@ -19,15 +19,15 @@ app = Flask(__name__)
 def index():
     greeting = get_greeting()
     data = get_all_data()
-    total_receitas, total_despesas = get_receitas_sum(), get_despesas_sum()
-    saldo_total = total_receitas - total_despesas
+    total_income, total_expense = get_income_sum(), get_expense_sum()
+    total_balance = total_income - total_expense
 
     return render_template(
         "index.html",
         data=data,
-        total_receitas=transform_dot_in_comma(total_receitas),
-        total_despesas=transform_dot_in_comma(total_despesas),
-        saldo_total=transform_dot_in_comma(saldo_total),
+        total_income=transform_dot_in_comma(total_income),
+        total_expense=transform_dot_in_comma(total_expense),
+        total_balance=transform_dot_in_comma(total_balance),
         greeting=greeting,
         edit=True,
     )
@@ -43,52 +43,48 @@ def create_new_transaction():
     description = request.form["description"]
     value = float(request.form["value"])
     date = request.form["date"]
-    tipo_transacao = request.form["tipo_transacao"]
+    type = request.form["type"]
     store_db(
-        descricao=description,
-        valor_transacao=value,
-        data_transacao=date,
-        tipo_transacao=tipo_transacao,
+        description=description,
+        value=value,
+        date=date,
+        type=type,
     )
     return redirect(url_for("index"))
 
 
-@app.route("/edit/<tipo_transacao>/<int:transaction_id>")
-def form_edit_transaction(transaction_id, tipo_transacao):
-    transaction = get_by_id(transaction_id, tipo_transacao)
+@app.route("/edit/<int:transaction_id>")
+def form_edit_transaction(transaction_id):
+    transaction = get_by_id(transaction_id)
 
     transaction = {
         "id": transaction[0],
         "description": transaction[1],
         "amount": transaction[2],
         "date": transaction[3],
+        "type": transaction[4],
     }
 
-    return render_template(
-        "form_new_item.html", transaction=transaction, tipo_transacao=tipo_transacao
-    )
+    return render_template("form_new_item.html", transaction=transaction)
 
 
-@app.route("/update/<tipo_transacao>s/<int:transaction_id>", methods=["POST"])
-def update_transaction(transaction_id, tipo_transacao):
+@app.route("/update/<int:id>", methods=["POST"])
+def update_transaction(id):
 
     description = request.form["description"]
-    amount = request.form["value"]
+    value = request.form["value"]
     date = request.form["date"]
 
-    edited_transaction = update_line(
-        f"{tipo_transacao}s", description, amount, date, transaction_id
-    )
+    edited_transaction = update_line(description, value, date, id)
 
     return redirect(url_for("index"))
 
 
 @app.route("/delete", methods=["POST"])
 def delete_transaction():
-    tabela = request.form["tabela"]
     id = request.form["id"]
 
-    remove_line(tabela, id)
+    remove_line(id)
 
     return redirect(url_for("index"))
 

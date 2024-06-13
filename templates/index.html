@@ -6,16 +6,16 @@
   <div class="cards">
     <div class="alert alert-success" role="alert">
       <h2>Receitas</h2>
-      <h5>R$ {{ total_receitas }}</h5>
+      <h5>R$ {{ total_income }}</h5>
     </div>
     <div class="alert alert-danger" role="alert">
       <h2>Despesas</h2>
-      <h5>R$ {{ total_despesas }}</h5>
+      <h5>R$ {{ total_expense }}</h5>
     </div>
 
     <div class="alert alert-primary" role="alert">
       <h2>Saldo Total</h2>
-      <h5>R$ {{ saldo_total }}</h5>
+      <h5>R$ {{ total_balance }}</h5>
     </div>
   </div>
   <table class="table">
@@ -32,16 +32,15 @@
       <tr>
         <td>{{ item.date }}</td>
         <td>{{ item.description }}</td>
-        <td class="{{ 'receita' if item.type == 'receita' else 'despesa' }}">R$ {{ item.amount }}</td>
+        <td class="{{ 'income' if item.type == 'income' else 'expense' }}">R$ {{ item.value }}</td>
         <td class="actions">
           <!-- DELETE -->
           <form action="{{ url_for('delete_transaction') }}" method="POST">
-            <input type="hidden" name="tabela" value="{{ item.type }}s">
             <input type="hidden" name="id" value="{{ item.id }}">
             <button type="submit" class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
           </form>
 
-          <a href="{{ url_for('form_edit_transaction', transaction_id=item.id, tipo_transacao=item.type) }}">
+          <a href="{{ url_for('form_edit_transaction', transaction_id=item.id) }}">
             <button type="button" class="btn btn-primary"><i class="bi bi-pencil-fill"></i></button>
           </a>
         </td>
