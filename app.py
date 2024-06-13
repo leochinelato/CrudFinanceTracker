@@ -1,4 +1,13 @@
-from flask import Flask, render_template, request, jsonify, url_for, redirect
+from flask import (
+    Flask,
+    render_template,
+    request,
+    jsonify,
+    url_for,
+    redirect,
+    flash,
+    get_flashed_messages,
+)
 from database import (
     store_db,
     get_all_data,
@@ -13,6 +22,7 @@ from utils.utils import transform_dot_in_comma, get_greeting
 # COLOCAR CATEGORIA
 
 app = Flask(__name__)
+app.secret_key = "9i0fewmi90dma d09m k kd as batata azul"
 
 
 @app.route("/")
@@ -40,10 +50,15 @@ def form_new_item():
 
 @app.route("/new", methods=["POST"])
 def create_new_transaction():
-    description = request.form["description"]
-    value = float(request.form["value"])
-    date = request.form["date"]
-    type = request.form["type"]
+    try:
+        description = request.form["description"]
+        value = float(request.form["value"])
+        date = request.form["date"]
+        type = request.form["type"]
+    except ValueError:
+        flash(f"Erro ao cadastrar a transação: 'Valor' Deve ser numérico.", "error")
+        return redirect(url_for("form_new_item"))
+
     store_db(
         description=description,
         value=value,
@@ -71,9 +86,13 @@ def form_edit_transaction(transaction_id):
 @app.route("/update/<int:id>", methods=["POST"])
 def update_transaction(id):
 
-    description = request.form["description"]
-    value = request.form["value"]
-    date = request.form["date"]
+    try:
+        description = request.form["description"]
+        value = float(request.form["value"])
+        date = request.form["date"]
+    except:
+        flash(f"Erro ao editar a transação: 'Valor' Deve ser numérico.", "error")
+        return redirect(url_for("form_edit_transaction", transaction_id=id))
 
     edited_transaction = update_line(description, value, date, id)
 

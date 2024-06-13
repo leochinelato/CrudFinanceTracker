@@ -1,0 +1,23 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    <ul class="flashes error_msg_box">
+        {% for category, message in messages %}
+            <li class="alert alert-danger alert-dismissible fade show error_msg" role="alert">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endwith %}
+
+<style>
+    .error_msg_box {
+        padding: 0;
+    }
+
+    .error_msg {
+        width: 100%;
+        margin:auto;
+        height: fit-content;
+        padding: 10px;
+    }
+
+</style>

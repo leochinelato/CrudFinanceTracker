@@ -2,17 +2,12 @@
 
 {% block content %}
 
-<form
-    {% if transaction %}
-        action="{{ url_for('update_transaction', id=transaction.id) }}"
-    {% else %}
-        action="{{ url_for('create_new_transaction') }}"
-    {% endif %}
 
-    method="POST"
 
-    class="create_form container"
->
+<form {% if transaction %} action="{{ url_for('update_transaction', id=transaction.id) }}" {% else %}
+    action="{{ url_for('create_new_transaction') }}" {% endif %} method="POST" class="create_form container">
+
+    {% include "error.html" %}
 
     <h1>{% if transaction %} Editar Transação {% else %} Nova Transação {% endif %}</h1>
     <div class="mb-3">
@@ -25,24 +20,27 @@
         <label for="exampleInputPassword1" class="form-label">Valor</label>
         <div class="currency-input">
             <span>R$</span>
-            <input step="0.01" class="form-control" id="exampleInputPassword1" name="value" required {% if transaction %} value="{{ transaction.amount }}" {% endif %}>
+            <input step="0.01" class="form-control" id="exampleInputPassword1" name="value" required {% if transaction
+                %} value="{{ transaction.amount }}" {% endif %}>
         </div>
     </div>
 
     <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Data</label>
-        <input type="date" class="form-control" id="exampleInputPassword1" name="date" required {% if transaction %} value="{{ transaction.date }}" {% endif %}>
+        <input type="date" class="form-control" id="exampleInputPassword1" name="date" required {% if transaction %}
+            value="{{ transaction.date }}" {% endif %}>
     </div>
 
     {% if transaction %}
-        <button name="type" value="{{ tipo_transacao }}" type="submit" class="btn btn-primary">Salvar {{ tipo_transacao }}</button>
+    <button name="type" value="{{ tipo_transacao }}" type="submit" class="btn btn-primary">Salvar {{ tipo_transacao
+        }}</button>
     {% else %}
-        <button name="type" value="income" type="submit" class="btn btn-primary">Adicionar Receita</button>
-        <button name="type" value="expense" type="submit" class="btn btn-danger">Adicionar Despesa</button>
+    <button name="type" value="income" type="submit" class="btn btn-primary">Adicionar Receita</button>
+    <button name="type" value="expense" type="submit" class="btn btn-danger">Adicionar Despesa</button>
     {% endif %}
-        <a href="{{ url_for('index') }}">
-            <button type="button" class="btn">Voltar</button>
-        </a>
+    <a href="{{ url_for('index') }}">
+        <button type="button" class="btn">Voltar</button>
+    </a>
 </form>
 
 {% endblock %}
