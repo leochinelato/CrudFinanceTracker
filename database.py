@@ -4,7 +4,7 @@ from utils.utils import transform_dot_in_comma
 
 
 def create_tables():
-    conn = sqlite3.connect("transacoes.db")
+    conn = sqlite3.connect("transactions.db")
     cursor = conn.cursor()
 
     cursor.execute(
@@ -34,7 +34,7 @@ def create_tables():
 
 
 def store_db(descricao, valor_transacao, data_transacao, tipo_transacao):
-    conn = sqlite3.connect("transacoes.db")
+    conn = sqlite3.connect("transactions.db")
     cursor = conn.cursor()
 
     if tipo_transacao == "receita":
@@ -58,7 +58,7 @@ def store_db(descricao, valor_transacao, data_transacao, tipo_transacao):
 
 
 def update_line(tabela, descricao, valor_transacao, data_transacao, id_transacao):
-    conn = sqlite3.connect("transacoes.db")
+    conn = sqlite3.connect("transactions.db")
     cursor = conn.cursor()
 
     cursor.execute(
@@ -70,7 +70,7 @@ def update_line(tabela, descricao, valor_transacao, data_transacao, id_transacao
 
 
 def remove_line(tabela, valor):
-    conn = sqlite3.connect("transacoes.db")
+    conn = sqlite3.connect("transactions.db")
     cursor = conn.cursor()
     try:
         query = f"DELETE FROM {tabela} WHERE id = ?"
@@ -84,7 +84,7 @@ def remove_line(tabela, valor):
 
 
 def get_all_data():
-    conn = sqlite3.connect("transacoes.db")
+    conn = sqlite3.connect("transactions.db")
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM receitas")
@@ -124,7 +124,7 @@ def get_all_data():
 
 
 def get_by_id(id, tabela):
-    conn = sqlite3.connect("transacoes.db")
+    conn = sqlite3.connect("transactions.db")
     cursor = conn.cursor()
 
     cursor.execute(f"SELECT * FROM {tabela}s WHERE id = ?", (id,))
@@ -134,7 +134,7 @@ def get_by_id(id, tabela):
 
 
 def get_receitas_sum():
-    conn = sqlite3.connect("transacoes.db")
+    conn = sqlite3.connect("transactions.db")
     cursor = conn.cursor()
 
     cursor.execute("SELECT SUM(valor) AS total_receitas FROM receitas")
@@ -146,7 +146,7 @@ def get_receitas_sum():
 
 
 def get_despesas_sum():
-    conn = sqlite3.connect("transacoes.db")
+    conn = sqlite3.connect("transactions.db")
     cursor = conn.cursor()
 
     cursor.execute("SELECT SUM(valor) AS total_despesas FROM despesas")
