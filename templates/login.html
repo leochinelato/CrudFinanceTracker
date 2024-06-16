@@ -1,0 +1,28 @@
+{% extends "template.html" %}
+
+{% block content %}
+
+<form method="POST">
+    {% include "error.html" %}
+    <h3>
+        Login Page
+    </h3>
+    <div class="mb-3">
+        <label for="inputuser" class="form-label">Username</label>
+        <input type="text" class="form-control" id="inputuser" name="username">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password">
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+    <a href="{{ url_for('sign_up') }}">
+        <button type="button" class="btn btn-outline-secondary">Sign Up</button>
+    </a>
+</form>
+
+<style>
+
+</style>
+
+{% endblock %}

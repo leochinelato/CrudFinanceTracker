@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="container">
-  <h1>{{ greeting }}, Leonardo.</h1>
+  <h1>{{ greeting }}</h1>
   <div class="cards">
     <div class="alert alert-success" role="alert">
       <h2>Receitas</h2>
@@ -14,7 +14,7 @@
     </div>
 
     <div class="alert alert-primary" role="alert">
-      <h2>Saldo Total</h2>
+      <h2>Saldo</h2>
       <h5>R$ {{ total_balance }}</h5>
     </div>
   </div>
@@ -40,7 +40,7 @@
             <button type="submit" class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
           </form>
 
-          <a href="{{ url_for('form_edit_transaction', transaction_id=item.id) }}">
+          <a href="{{ url_for('update_transaction', id=item.id) }}">
             <button type="button" class="btn btn-primary"><i class="bi bi-pencil-fill"></i></button>
           </a>
         </td>
@@ -49,7 +49,7 @@
     </tbody>
   </table>
 
-  <a href="{{ url_for('form_new_item') }}">
+  <a href="{{ url_for('create_new_transaction') }}">
     <button type="submit" class="btn btn-primary">
       Nova Transação
     </button>

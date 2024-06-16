@@ -1,0 +1,25 @@
+{% extends "template.html" %}
+
+{% block content %}
+
+<form method="POST">
+    <h3>Sign Up Page</h3>
+    <div class="mb-3">
+        <label for="inputuser" class="form-label">Username</label>
+        <input type="text" class="form-control" id="inputuser" name="username">
+    </div>
+    <div class="mb-3">
+        <label for="inputname" class="form-label">Full Name</label>
+        <input type="text" name="fullname" id="inputname" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password">
+    </div>
+    <button type="submit" class="btn btn-primary">Create user</button>
+    <a href="{{ url_for('login') }}">
+        <button type="button" class="btn btn-outline-secondary">Login</button>
+    </a>
+</form>
+
+{% endblock %}
