@@ -41,7 +41,8 @@ def register_new_user(username, fullname, password):
     cursor = conn.cursor()
 
     cursor.execute(
-        "INSERT INTO users (username, fullname, password) VALUES (?,?,?)", (username, fullname, password)
+        "INSERT INTO users (username, fullname, password) VALUES (?,?,?)", (
+            username, fullname, password)
     )
 
     conn.commit()
@@ -97,7 +98,6 @@ def get_user_first_name(user_id):
 
     conn.close()
     return first_name.capitalize()
-
 
 
 def store_db(description, user_id, value, date, type):

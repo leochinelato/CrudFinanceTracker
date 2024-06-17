@@ -29,7 +29,7 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET KEY", os.urandom(12).hex())
 
 
-@app.route("/user/register", methods=["POST", "GET"])
+@ app.route("/user/register", methods=["POST", "GET"])
 def sign_up():
     if request.method == "POST":
         username = request.form["username"]
@@ -41,7 +41,7 @@ def sign_up():
     return render_template("register.html")
 
 
-@app.route("/user/login", methods=["POST", "GET"])
+@ app.route("/user/login", methods=["POST", "GET"])
 def login():
     if request.method == "POST":
         username = request.form["username"]
@@ -56,13 +56,13 @@ def login():
     return render_template("login.html")
 
 
-@app.route("/user/logout")
+@ app.route("/user/logout")
 def logout():
     session.pop("user_id", None)
     return redirect(url_for("login"))
 
 
-@app.route("/")
+@ app.route("/")
 def index():
     if "user_id" not in session:
         return redirect(url_for("login"))
@@ -86,7 +86,7 @@ def index():
     )
 
 
-@app.route("/new", methods=["POST", "GET"])
+@ app.route("/new", methods=["POST", "GET"])
 def create_new_transaction():
     if "user_id" not in session:
         return redirect(url_for("login"))
@@ -112,7 +112,7 @@ def create_new_transaction():
     return render_template("form_new_item.html")
 
 
-@app.route("/update/<int:id>", methods=["POST", "GET"])
+@ app.route("/update/<int:id>", methods=["POST", "GET"])
 def update_transaction(id):
     if "user_id" not in session:
         return redirect(url_for("login"))
@@ -143,7 +143,7 @@ def update_transaction(id):
     return render_template("form_new_item.html", transaction=transaction)
 
 
-@app.route("/delete", methods=["POST"])
+@ app.route("/delete", methods=["POST"])
 def delete_transaction():
     id = request.form["id"]
 
