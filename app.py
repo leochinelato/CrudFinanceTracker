@@ -145,8 +145,10 @@ def update_transaction(id):
 
 @ app.route("/delete", methods=["POST"])
 def delete_transaction():
-    id = request.form["id"]
+    if "user_id" not in session:
+        return redirect(url_for("login"))
 
+    id = request.form["id"]
     remove_line(id)
 
     return redirect(url_for("index"))
@@ -154,4 +156,4 @@ def delete_transaction():
 
 if __name__ == "__main__":
 
-    app.run(port=8000, debug=True)
+    app.run(port=8000, host="192.168.15.13", debug=True)

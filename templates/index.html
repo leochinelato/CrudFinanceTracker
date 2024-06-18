@@ -1,59 +1,73 @@
 {% extends "template.html" %}
 {% block content %}
 
-<div class="container">
-  <h1>{{ greeting }}</h1>
-  <div class="cards">
-    <div class="alert alert-success" role="alert">
-      <h2>Receitas</h2>
-      <h5>R$ {{ total_income }}</h5>
-    </div>
-    <div class="alert alert-danger" role="alert">
-      <h2>Despesas</h2>
-      <h5>R$ {{ total_expense }}</h5>
+<div class="app-header-container">
+  <div class="app-header">
+    <h5>{{ greeting }}</h5>
+
+    <div class="balance_card" role="alert">
+      <span>Saldo Total</span>
+      <h2>R$ {{ total_balance }}</h2>
     </div>
 
-    <div class="alert alert-primary" role="alert">
-      <h2>Saldo</h2>
-      <h5>R$ {{ total_balance }}</h5>
+    <div class="cards">
+      <div class="money_card incomes" role="alert">
+        <i class="bi bi-plus"></i>
+        <span>Receitas</span>
+        <h5>R$ {{ total_income }}</h5>
+      </div>
+      <div class="money_card expenses" role="alert">
+        <i class="bi bi-dash"></i>
+        <span>Despesas</span>
+        <h5>R$ {{ total_expense }}</h5>
+      </div>
     </div>
   </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Data</th>
-        <th scope="col">Descrição</th>
-        <th scope="col">Valor</th>
-        <th scope="col">Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in data %}
-      <tr>
-        <td>{{ item.date }}</td>
-        <td>{{ item.description }}</td>
-        <td class="{{ 'income' if item.type == 'income' else 'expense' }}">R$ {{ item.value }}</td>
-        <td class="actions">
-          <!-- DELETE -->
-          <form action="{{ url_for('delete_transaction') }}" method="POST">
-            <input type="hidden" name="id" value="{{ item.id }}">
-            <button type="submit" class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
-          </form>
+</div>
 
-          <a href="{{ url_for('update_transaction', id=item.id) }}">
-            <button type="button" class="btn btn-primary"><i class="bi bi-pencil-fill"></i></button>
-          </a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="container app-body">
+  <div class="transactions">
+    <h5>Transações</h5>
+    {% if not data %}
+    <span>Você não tem transações ainda, use o botão no canto inferior direito para adicionar.</span>
+    {% endif %}
+    {% for item in data %}
+    <a href="{{ url_for('update_transaction', id=item.id) }}" class="transaction-card">
+      <div class="transaction-text">
+        <span>{{ item.date }}</span>
+        <h5>{{ item.description }}</h5>
+      </div>
+      <div class="transaction-value">
+        {% if item.type == 'income' %}
+        <span class="value-title {{ 'income' if item.type == 'income' else 'expense' }}">Receita</span>
+        {% else %}
+        <span class="value-title {{ 'income' if item.type == 'income' else 'expense' }}">Despesa</span>
+        {% endif %}
+        <h5 class="{{ 'income' if item.type == 'income' else 'expense' }}">R${{ item.value }}</h5>
+      </div>
+      <div class="transaction-actions transaction-remove">
+        <form action="{{ url_for('delete_transaction') }}" method="POST">
+          <input type="hidden" name="id" value="{{ item.id }}">
+          <button type="submit">
+            <i class="bi bi-trash3"></i>
+          </button>
+        </form>
+      </div>
+    </a>
+    <!-- <div class="transaction-actions transaction-edit">
+        <a href="{{ url_for('update_transaction', id=item.id) }}">
+          <button type="button"><i class="bi bi-pencil-fill"></i></button>
+        </a>
+      </div> -->
+  </div>
+  {% endfor %}
+</div>
 
-  <a href="{{ url_for('create_new_transaction') }}">
-    <button type="submit" class="btn btn-primary">
-      Nova Transação
-    </button>
-  </a>
+<a href="{{ url_for('create_new_transaction') }}">
+  <button type="submit" class="add-button-float">
+    <i class="bi bi-plus-circle-fill"></i>
+  </button>
+</a>
 
 </div>
 
