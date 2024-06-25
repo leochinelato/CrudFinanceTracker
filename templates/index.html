@@ -29,7 +29,7 @@
   <div class="transactions">
     <h5>Transações</h5>
     {% if not data %}
-    <span>Você não tem transações ainda, use o botão no canto inferior direito para adicionar.</span>
+    <span>Você ainda não possui transações. Use o botão no canto inferior direito para adicionar uma nova.</span>
     {% endif %}
     {% for item in data %}
     <a href="{{ url_for('update_transaction', id=item.id) }}" class="transaction-card">
@@ -59,15 +59,12 @@
           <button type="button"><i class="bi bi-pencil-fill"></i></button>
         </a>
       </div> -->
+    {% endfor %}
   </div>
-  {% endfor %}
 </div>
 
-<a href="{{ url_for('create_new_transaction') }}">
-  <button type="submit" class="add-button-float">
-    <i class="bi bi-plus-circle-fill"></i>
-  </button>
-</a>
+{% include "bottom_navbar.html" %}
+
 
 </div>
 

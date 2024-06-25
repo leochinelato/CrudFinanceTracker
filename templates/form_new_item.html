@@ -8,39 +8,54 @@
     action="{{ url_for('create_new_transaction') }}" {% endif %} method="POST" class="create_form container">
 
     {% include "error.html" %}
-
-    <h1>{% if transaction %} Editar Transação {% else %} Nova Transação {% endif %}</h1>
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Descricao</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="description"
-            required {% if transaction %} value="{{ transaction.description }}" {% endif %}>
+    <div class="app-header transaction-page-header">
+        <h3>{% if transaction %} Editar Transação {% else %} Cadastrar nova Transação {% endif %}</h3>
     </div>
+    <div class="transaction-page-body">
+        <div class="input-field">
+            <input type="text" id="transaction-description" aria-describedby="emailHelp" name="description"
+                class="input-form-new-transaction" placeholder="Descrição" required {% if transaction %}
+                value="{{ transaction.description }}" {% endif %}>
+        </div>
 
-    <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Valor</label>
-        <div class="currency-input">
-            <span>R$</span>
-            <input step="0.01" class="form-control" id="exampleInputPassword1" name="value" required {% if transaction
-                %} value="{{ transaction.amount }}" {% endif %}>
+        <div class="input-field">
+            <input step="0.01" id="transaction-value" name="value" class="input-form-new-transaction"
+                placeholder="Valor (R$)" required {% if transaction %} value="{{ transaction.amount }}" {% endif %}>
+        </div>
+
+        <!-- <div class="input-field">
+            <select name="category" id="transaction-category" class="transaction-category input-form-new-transaction"
+                class="placeholder" required disabled>
+                <option value="" disabled selected>Categoria (em desenvolvimento)</option>
+                <option value="1">1</option>
+            </select>
+        </div> -->
+
+        <div class="input-field">
+            <input type="date" id="transaction-date" name="date" class="input-form-new-transaction" required {% if
+                transaction %} value="{{ transaction.date }}" {% endif %}>
+        </div>
+        <div class="buttons">
+            {% if transaction %}
+            <button name="type" value="{{ tipo_transacao }}" class="input-form-new-transaction" type="submit"
+                class="btn btn-primary">Salvar {{ tipo_transacao }}
+            </button>
+            {% else %}
+            <button name="type" value="income" type="submit" class="btn ios-btn ios-btn-blue">Adicionar
+                Receita</button>
+            <button name="type" value="expense" type="submit" class="btn ios-btn ios-btn-red">Adicionar
+                Despesa</button>
+
+
+
+            {% endif %}
+            <a href="{{ url_for('index') }}">
+                <button type="button" class="btn">Voltar</button>
+            </a>
         </div>
     </div>
-
-    <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Data</label>
-        <input type="date" class="form-control" id="exampleInputPassword1" name="date" required {% if transaction %}
-            value="{{ transaction.date }}" {% endif %}>
-    </div>
-
-    {% if transaction %}
-    <button name="type" value="{{ tipo_transacao }}" type="submit" class="btn btn-primary">Salvar {{ tipo_transacao
-        }}</button>
-    {% else %}
-    <button name="type" value="income" type="submit" class="btn btn-primary">Adicionar Receita</button>
-    <button name="type" value="expense" type="submit" class="btn btn-danger">Adicionar Despesa</button>
-    {% endif %}
-    <a href="{{ url_for('index') }}">
-        <button type="button" class="btn">Voltar</button>
-    </a>
 </form>
+
+{% include "bottom_navbar.html" %}
 
 {% endblock %}

@@ -1,0 +1,23 @@
+{% extends "template.html" %}
+
+{% block content %}
+
+<div class="user-data-container">
+    <div class="user-profile">
+        <i class="bi bi-person-circle"></i>
+        <p>{{ full_name }}</p>
+    </div>
+
+    <div class="user-actions">
+        <a href="#">
+            <button class="user-button">Editar perfil</button>
+        </a>
+        <a href="{{ url_for('logout') }}">
+            <button class="user-button logout-button">Finalizar Sessão</button>
+        </a>
+    </div>
+</div>
+
+{% include "bottom_navbar.html" %}
+
+{% endblock %}

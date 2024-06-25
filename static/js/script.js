@@ -17,3 +17,20 @@ if (window.matchMedia) {
         applyDarkTheme();
     });
 }
+
+const togglePassword = document.querySelector('#togglePassword');
+const password = document.querySelector("#password");
+
+togglePassword.addEventListener('click', () => {
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+
+    if (type == 'text') {
+        togglePassword.classList.remove('bi-eye-slash');
+        togglePassword.classList.add('bi-eye');
+    } else {
+        togglePassword.classList.remove('bi-eye');
+        togglePassword.classList.add('bi-eye-slash');
+    }
+
+})

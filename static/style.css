@@ -32,18 +32,6 @@
     display: block;
 }
 
-.create_form {
-    width: 50%;
-    margin: auto;
-    max-height: 100vh;
-    
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-}
-
 .error {
     background-color: red;
 }
@@ -51,7 +39,7 @@
 .balance_card {
     display: inline-block;
     padding: 20px 0;
-    text-align: start;
+    text-align: center;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -74,8 +62,7 @@
 .money_card {
     padding: 5px 30px;
     border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
-    background-color: white;
+    background-color: #FFFFFF;
     position: absolute;
     transform: translateY(50%);
 }
@@ -97,10 +84,13 @@
 }
 
 .app-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     margin-bottom: 10px;
     padding: 40px 10px;
-    background-color: antiquewhite;
-    border-radius: 0 0 20px 20px;
 }
 
 
@@ -111,14 +101,15 @@
 .transaction-card {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    align-items: baseline;
     border-radius: 10px;
-    padding: 10px 0;
+    padding: 5px 0;
+    background-color: #FFFFFF;
 }
 
 .transaction-text {
-    width: 60%;
+    width: 100px!important;
+    overflow: scroll;
     position: relative;
     left: 10px;
 }
@@ -145,7 +136,7 @@
 
 .transaction-card {
     display: flex;
-    
+    justify-content: space-around;
 }
 
 .transaction-actions {
@@ -153,33 +144,11 @@
     flex-direction: row;
 }
 
-.transaction-value {
-    display: flex;
-    flex-direction: column;
-}
-
-.transaction-value h5 {
-    margin: 0;
-}
-
 .transaction-actions button {
     border: none;
     background-color: inherit;
 }
 
-.add-button-float {
-    border: none;
-    background-color: inherit;
-    font-size: 50px;
-    color: rgb(70, 2, 53);
-    position: fixed;
-    width: 60px;
-    height: 60px;
-    bottom: 40px;
-    right: 40px;
-    z-index: 100;
-
-}
 
 .bi-trash3 {
     font-size: 120%;
@@ -192,4 +161,229 @@
 a {
     text-decoration: none;
     color: inherit;
+}
+
+.input-login {
+    outline: 0;
+    border-width: 0 0 1px;
+    border-color: rgba(70, 70, 70, 0.576);
+    border-radius: 0!important;
+    transition: all 0.1s;
+    background-color: inherit;
+}
+
+.input-login:focus {
+    border-color: black;
+    border-width: 0 0 1px;
+}
+
+.buttons, .buttons-login-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.buttons-login-page button {
+    width: 10em;
+}
+
+.buttons button {
+    width: 100%;
+}
+
+.login-page-body {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-page-header, .transaction-page-header {
+    text-align: center;
+    background-color: inherit!important;
+}
+
+.date-placeholder {
+    background-color: inherit;
+    position: relative;
+    bottom: -30px;
+    left: -50px;
+    color: rgba(0, 0, 0, 0.402);
+}
+
+
+
+[data-bs-theme="dark"] body {
+    background:rgb(28,28,30);
+    background: linear-gradient(35deg, rgb(28,28,30) 0%, rgb(28,28,30) 70%, rgba(0,117,140,0.6573223039215687) 100%);
+}
+
+body {
+    background: rgb(242,242,246);
+    background: linear-gradient(35deg, rgba(242,242,246) 0%, rgba(242,242,246) 63%, rgba(0,212,255,0.5984987745098039) 100%);
+    height: 100vh;
+    padding-top: 2em;
+}
+
+[data-bs-theme="dark"] .money_card {
+    background-color:rgb(39, 39, 41)
+}
+
+
+[data-bs-theme="dark"] .transaction-page-body input {
+    background-color: inherit;
+    border: 1px solid rgb(71, 71, 71);
+}
+
+[data-bs-theme="dark"] #transaction-date {
+    background-color: inherit;
+    border: 1px solid rgb(71, 71, 71)!important;
+}
+
+.password-box {
+    position: relative;
+    width: fit-content;
+}
+
+#togglePassword {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.bottom-navbar {
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: 30px;
+    padding-top: 1em;
+    border-radius: 1em 1em 0 0;
+    
+}
+
+.bottom-navbar a {
+    border: none;
+    background-color: inherit;
+    color: #727272;
+    font-size: 30px;
+}
+
+.navbar-button{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.navbar-button span {
+    font-size: 0.7rem;
+}
+
+.bottom-navbar a i{
+    margin: 0;
+    line-height: 0;
+}
+
+.user-data-container i {
+    font-size: 5em;
+    line-height: normal;
+}
+
+.user-data-container p {
+    font-size: 1.5em;
+}
+
+.user-data-container, .user-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.user-data-container {
+    margin-top: 2em;
+}
+
+.user-actions {
+    width: 90%;
+}
+
+.user-button {
+    width: 100%;
+    border: none;
+    background-color: #ffffff;
+    border-radius: .5em;
+    height: 2.5em;
+}
+
+[data-bs-theme="dark"] .user-button {
+    background-color: rgb(39, 39, 41);
+}
+
+.logout-button {
+    margin-top: 2em;
+    color: rgb(255, 0, 0);
+}
+
+.input-field {
+    display: flex;
+    align-items: baseline;
+    gap: 1em;
+    padding-bottom: 0.2em;
+}
+
+.input-field input, select {
+    border: none;
+    background-color: inherit;
+}
+
+.input-field select {
+    padding-left: 0.7em;
+}
+
+
+.input-form-new-transaction {
+    border: solid 0.4px #727272!important;
+    border-radius: 0.5em;
+    width: 100%;
+    height: 2.5em;
+    padding-left: 1em;
+    margin-bottom: 1em;
+}
+
+[data-bs-theme="dark"] .bottom-navbar {
+    background-color: rgb(39,39,41);
+
+}
+
+[data-bs-theme="dark"] .bottom-navbar a{
+    color: #cdcdcd;
+}
+
+[data-bs-theme="dark"] .transaction-card {
+    background-color: rgb(39, 39, 41);
+}
+
+[data-bs-theme="dark"] .ios-btn {
+    background-color: rgb(39, 39, 41);
+}
+
+[data-bs-theme="dark"] .ios-btn-blue {
+    background-color: rgb(22,117,219);
+}
+
+[data-bs-theme="dark"] .ios-btn-red {
+    color: rgb(255, 0, 0);
 }

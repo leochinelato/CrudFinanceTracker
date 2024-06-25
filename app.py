@@ -22,8 +22,10 @@ from database import (
     update_line,
     get_by_id,
     get_user_first_name,
+    get_user_full_name,
 )
 from utils.utils import transform_dot_in_comma, get_greeting
+from decorators import login_required
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET KEY", os.urandom(12).hex())
@@ -46,11 +48,14 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        next_url = request.form["next"]
 
         user = check_if_user_is_registered(username)
 
         if user and check_password_hash(user[3], password):
             session["user_id"] = user[0]
+            if next_url:
+                return redirect(next_url)
             return redirect(url_for("index"))
         flash(f"Username not exists or invalid password.", "error")
     return render_template("login.html")
@@ -63,15 +68,15 @@ def logout():
 
 
 @ app.route("/")
+@login_required
 def index():
-    if "user_id" not in session:
-        return redirect(url_for("login"))
 
-    first_name = get_user_first_name(session["user_id"])
+    user_id = session["user_id"]
+    first_name = get_user_first_name(user_id)
     greeting = get_greeting(first_name)
-    data = show_all_transactions_from_user(session["user_id"])
-    total_income, total_expense = get_income_sum(session["user_id"]), get_expense_sum(
-        session["user_id"]
+    data = show_all_transactions_from_user(user_id)
+    total_income, total_expense = get_income_sum(user_id), get_expense_sum(
+        user_id
     )
     total_balance = total_income - total_expense
 
@@ -86,10 +91,15 @@ def index():
     )
 
 
-@ app.route("/new", methods=["POST", "GET"])
+@app.route("/month")
+@login_required
+def show_transactions_by_month():
+    return render_template("transactions_by_month.html")
+
+
+@app.route("/new", methods=["POST", "GET"])
+@login_required
 def create_new_transaction():
-    if "user_id" not in session:
-        return redirect(url_for("login"))
     if request.method == "POST":
         try:
             user_id = session["user_id"]
@@ -113,10 +123,8 @@ def create_new_transaction():
 
 
 @ app.route("/update/<int:id>", methods=["POST", "GET"])
+@login_required
 def update_transaction(id):
-    if "user_id" not in session:
-        return redirect(url_for("login"))
-
     if request.method == "POST":
         try:
             description = request.form["description"]
@@ -144,16 +152,21 @@ def update_transaction(id):
 
 
 @ app.route("/delete", methods=["POST"])
+@login_required
 def delete_transaction():
-    if "user_id" not in session:
-        return redirect(url_for("login"))
-
     id = request.form["id"]
     remove_line(id)
 
     return redirect(url_for("index"))
 
 
+@app.route("/profile")
+@login_required
+def show_user_profile():
+    full_name = get_user_full_name(session["user_id"])
+    return render_template("profile.html", full_name=full_name)
+
+
 if __name__ == "__main__":
 
-    app.run(port=8000, host="192.168.15.13", debug=True)
+    app.run(port=8000, debug=True)

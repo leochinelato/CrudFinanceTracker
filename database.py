@@ -23,10 +23,11 @@ def create_tables():
     CREATE TABLE IF NOT EXISTS transactions (
         id INTEGER PRIMARY KEY,
         user_id INTEGER,
-        description TEXT,
+        description VARCHAR(100),
         value REAL,
         date TEXT,
         type TEXT,
+        category VARCHAR(100),
         FOREIGN KEY (user_id) REFERENCES users(id)
     )
     """
@@ -98,6 +99,17 @@ def get_user_first_name(user_id):
 
     conn.close()
     return first_name.capitalize()
+
+
+def get_user_full_name(user_id):
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT fullname FROM users WHERE id = ?", (user_id,))
+    full_name = cursor.fetchone()
+    full_name = full_name[0]
+
+    conn.close()
+    return full_name
 
 
 def store_db(description, user_id, value, date, type):

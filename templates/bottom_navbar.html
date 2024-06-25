@@ -1,0 +1,22 @@
+{% extends "template.html" %}
+
+{% block content %}
+
+<div class="bottom-navbar">
+    <a href="{{ url_for('index') }}" class="navbar-button">
+        <i class="bi bi-house"></i>
+        <span>Ínicio</span>
+    </a>
+
+    <a href="{{ url_for('create_new_transaction') }}" class="navbar-button">
+        <i class="bi bi-plus-circle-fill"></i>
+        <span>Nova</span>
+    </a>
+
+    <a href="{{ url_for('show_user_profile') }}" class="navbar-button">
+        <i class="bi bi-person-circle"></i>
+        <span>Perfil</span>
+    </a>
+</div>
+
+{% endblock %}

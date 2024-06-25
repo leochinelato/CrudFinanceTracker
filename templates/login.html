@@ -4,21 +4,29 @@
 
 <form method="POST">
     {% include "error.html" %}
-    <h3>
-        Login Page
-    </h3>
-    <div class="mb-3">
-        <label for="inputuser" class="form-label">Username</label>
-        <input type="text" class="form-control" id="inputuser" name="username">
+    <div class="app-header login-page-header">
+        <span>
+            <h3>Olá!</h3> Faça seu login para continuar.
+        </span>
     </div>
-    <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="password">
+    <div class="login-page-body">
+        <div class="mb-3">
+            <input class="input-login" type="text" id="inputuser" name="username" placeholder="Login">
+        </div>
+        <div class="mb-3">
+            <div class="password-box">
+                <input type="password" class="input-login" id="password" name="password" placeholder="Senha">
+                <i class="bi bi-eye-slash" id="togglePassword"></i>
+            </div>
+        </div>
+        <input type="hidden" name="next" value="{{ request.args.get('next', '') }}">
     </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-    <a href="{{ url_for('sign_up') }}">
-        <button type="button" class="btn btn-outline-secondary">Sign Up</button>
-    </a>
+    <div class="buttons-login-page">
+        <button type="submit" class="btn btn-primary">Login</button>
+        <a href="{{ url_for('sign_up') }}">
+            <button type="button" class="btn btn-outline-secondary">Cadastrar-se</button>
+        </a>
+    </div>
 </form>
 
 <style>

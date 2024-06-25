@@ -12,5 +12,4 @@ def get_greeting(name):
         return f"Bom dia, {name}."
     elif 12 <= current_hour < 18:
         return f"Boa tarde, {name}."
-    else:
-        return f"Boa noite, {name}."
+    return f"Boa noite, {name}."
