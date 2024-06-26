@@ -1,0 +1,41 @@
+{% extends "template.html" %}
+
+{% block content %}
+
+
+
+<form action="{{ url_for('create_new_category') }}" method="POST" class="create_form container">
+
+    {% include "error.html" %}
+    <div class="app-header transaction-page-header">
+        <h3>Cadastrar nova categoria</h3>
+    </div>
+    <div class="transaction-page-body">
+        <div class="input-field">
+            <input type="text" id="category-name" name="category-name" class="input-form-new-transaction"
+                placeholder="Nome da Categoria" required>
+        </div>
+
+    </div>
+    <div class="buttons">
+        <!-- {% if transaction %}
+            <button name="type" value="{{ tipo_transacao }}" class="input-form-new-transaction" type="submit"
+                class="btn btn-primary">Salvar Categoria
+            </button>
+            {% else %} -->
+        <button name="type" value="income" type="submit" class="btn ios-btn ios-btn-blue">Adicionar
+            Categoria</button>
+
+
+
+        <!-- {% endif %} -->
+        <a href="{{ url_for('show_categories') }}">
+            <button type="button" class="btn">Voltar</button>
+        </a>
+    </div>
+    </div>
+</form>
+
+{% include "bottom_navbar.html" %}
+
+{% endblock %}

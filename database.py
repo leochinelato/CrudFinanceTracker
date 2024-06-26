@@ -28,9 +28,21 @@ def create_tables():
         date TEXT,
         type TEXT,
         category VARCHAR(100),
+        FOREIGN KEY (category) REFERENCES categories(name),
         FOREIGN KEY (user_id) REFERENCES users(id)
     )
     """
+    )
+
+    cursor.execute(
+        """
+    CREATE TABLE IF NOT EXISTS categories (
+        id INTEGER PRIMARY KEY,
+        name VARCHAR(100),
+        user_id INTEGER,
+        FOREIGN KEY (user_id) REFERENCES users(id)
+    )
+        """
     )
 
     conn.commit()
@@ -110,6 +122,41 @@ def get_user_full_name(user_id):
 
     conn.close()
     return full_name
+
+
+def create_new_category_in_db(category_name, user_id):
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO categories (name, user_id) VALUES (?,?)", (category_name, user_id))
+
+    #     cursor.execute(
+    #     "INSERT INTO users (username, fullname, password) VALUES (?,?,?)", (
+    #         username, fullname, password)
+    # )
+
+    conn.commit()
+    conn.close()
+
+
+def show_all_categories_from_user(user_id):
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM categories WHERE user_id = ?", (user_id,))
+    categories = cursor.fetchall()
+
+    categories = [
+        {
+            "id": c[0],
+            "name": c[1],
+        }
+        for c in categories
+    ]
+
+    conn.close()
+
+    return categories
 
 
 def store_db(description, user_id, value, date, type):

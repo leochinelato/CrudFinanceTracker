@@ -1,0 +1,31 @@
+{% extends "template.html" %}
+
+
+{% block content %}
+
+<div class="app-header-container">
+    <div class="app-header">
+        Teste
+    </div>
+</div>
+
+<div class="container app-body">
+    <div class="items">
+        <h5>Categorias</h5>
+        {% if not categories %}
+        <span>Você ainda não cadastrou nenhuma categoria.</span>
+        {% endif %}
+        {% for c in categories %}
+        <div class="item-card">
+            <h5>{{ c.name }}</h5>
+        </div>
+        {% endfor %}
+        <a href="{{ url_for('create_new_category') }}">
+            <button class="btn ios-btn ios-btn-blue">Criar nova categoria</button>
+        </a>
+    </div>
+</div>
+
+{% include "bottom_navbar.html" %}
+
+{% endblock %}

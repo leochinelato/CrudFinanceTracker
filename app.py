@@ -23,6 +23,8 @@ from database import (
     get_by_id,
     get_user_first_name,
     get_user_full_name,
+    show_all_categories_from_user,
+    create_new_category_in_db,
 )
 from utils.utils import transform_dot_in_comma, get_greeting
 from decorators import login_required
@@ -167,6 +169,26 @@ def show_user_profile():
     return render_template("profile.html", full_name=full_name)
 
 
-if __name__ == "__main__":
+@app.route("/categories")
+@login_required
+def show_categories():
+    user_id = session["user_id"]
+    categories = show_all_categories_from_user(user_id)
 
+    return render_template("categories.html", categories=categories)
+
+
+@app.route("/categories/new", methods=["POST", "GET"])
+@login_required
+def create_new_category():
+    if request.method == "POST":
+        user_id = session["user_id"]
+        category_name = request.form["category-name"]
+        create_new_category_in_db(category_name, user_id)
+        return redirect(url_for("show_categories"))
+
+    return render_template("form_new_category.html")
+
+
+if __name__ == "__main__":
     app.run(port=8000, debug=True)
