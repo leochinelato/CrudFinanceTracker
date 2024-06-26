@@ -1,48 +1,44 @@
-.currency-input {
-    position: relative;
-}
-.currency-input input {
-    padding-left: 30px;
-}
-.currency-input span {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    font-size: 16px;
-}
-
 .expense {
-    color: rgb(255, 0, 0)!important;
+    color: rgb(255,0,0)!important;
 }
 
 .income {
-    color: rgb(0, 160, 0)!important;
-}
-
-.actions {
-    display: flex!important;
-    gap: 5px;
-}
-
-.alert {
-    width: 30%;
-    height: 120px;
-    display: block;
+    color: rgb(0,160,0)!important;
 }
 
 .error {
     background-color: red;
 }
 
-.balance_card {
-    display: inline-block;
-    padding: 20px 0;
-    text-align: center;
+.container {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 2em;
+    margin-top: 2.5em;
+}
+
+.app-header-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.balance_card {
+    padding: 1.5em;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+}
+
+.glass {
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.9px);
+    -webkit-backdrop-filter: blur(5.9px);
 }
 
 .balance_card span {
@@ -51,7 +47,8 @@
 
 .cards {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 0;
     width: 100%;
     position: relative;
     top: -30px;
@@ -68,11 +65,11 @@
 }
 
 .incomes {
-    left: 20px;
+    left: 2em;
 }
 
 .expenses {
-    right: 20px;
+    right: 2em;
 }
 
 .bi-plus {
@@ -83,79 +80,29 @@
     color: red;
 }
 
-.app-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    margin-bottom: 10px;
-    padding: 40px 10px;
-}
-
-
-.app-body {
-    margin-top: 50px;
-}
-
 .item-card {
     display: flex;
     flex-direction: row;
-    align-items: baseline;
-    border-radius: 10px;
-    padding: 5px 0;
-    background-color: #FFFFFF;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .transaction-text {
     width: 100px!important;
-    overflow: scroll;
+    overflow: hidden;
     position: relative;
     left: 10px;
 }
 
 .transaction-text span {
     font-size: small;
-    font-weight: 200;
+    font-weight: 100;
 }
 
 .transaction-text h5 {
     margin: 0;
-    font-size: 20px;
-    font-weight: 500;
-}
-
-
-.items {
-    width: 80%;
-    margin: 20px auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.item-card {
-    display: flex;
-    justify-content: space-around;
-}
-
-.transaction-actions {
-    display: flex;
-    flex-direction: row;
-}
-
-.transaction-actions button {
-    border: none;
-    background-color: inherit;
-}
-
-
-.bi-trash3 {
-    font-size: 120%;
-}
-
-.value-title {
-    font-size: 12px;
+    font-size: 1.3em;
+    font-weight: 600;
 }
 
 a {
@@ -163,57 +110,17 @@ a {
     color: inherit;
 }
 
-.input-login {
-    outline: 0;
-    border-width: 0 0 1px;
-    border-color: rgba(70, 70, 70, 0.576);
-    border-radius: 0!important;
-    transition: all 0.1s;
-    background-color: inherit;
-}
-
-.input-login:focus {
-    border-color: black;
-    border-width: 0 0 1px;
-}
-
-.buttons, .buttons-login-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-}
-
-.buttons-login-page button {
-    width: 10em;
-}
-
-.buttons button {
+.buttons-login-page {
     width: 100%;
-}
-
-.login-page-body {
-    margin: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    gap: .7em;
 }
 
-.login-page-header, .transaction-page-header {
+.login-page-header{
     text-align: center;
     background-color: inherit!important;
 }
-
-.date-placeholder {
-    background-color: inherit;
-    position: relative;
-    bottom: -30px;
-    left: -50px;
-    color: rgba(0, 0, 0, 0.402);
-}
-
 
 
 [data-bs-theme="dark"] body {
@@ -224,12 +131,8 @@ a {
 body {
     background: rgb(242,242,246);
     background: linear-gradient(35deg, rgba(242,242,246) 0%, rgba(242,242,246) 63%, rgba(0,212,255,0.5984987745098039) 100%);
-    height: 100vh;
     padding-top: 2em;
-}
-
-[data-bs-theme="dark"] .money_card {
-    background-color:rgb(39, 39, 41)
+    height: 100vh;
 }
 
 
@@ -245,7 +148,8 @@ body {
 
 .password-box {
     position: relative;
-    width: fit-content;
+    display: flex;
+    align-items: baseline;
 }
 
 #togglePassword {
@@ -268,7 +172,6 @@ body {
     align-items: center;
     padding-bottom: 30px;
     padding-top: 1em;
-    border-radius: 1em 1em 0 0;
     
 }
 
@@ -305,27 +208,24 @@ body {
     font-size: 1.5em;
 }
 
-.user-data-container, .user-profile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.user-data-container {
-    margin-top: 2em;
-}
-
-.user-actions {
-    width: 90%;
-}
-
 .user-button {
     width: 100%;
     border: none;
     background-color: #ffffff;
     border-radius: .5em;
     height: 2.5em;
+}
+
+.user-profile {
+    text-align: center;
+}
+
+.user-profile i {
+    font-size: 4em;
+}
+
+.user-profile p {
+    font-size: 1.5em;
 }
 
 [data-bs-theme="dark"] .user-button {
@@ -354,13 +254,13 @@ body {
 }
 
 
-.input-form-new-transaction {
+.input-ios {
     border: solid 0.4px #727272!important;
     border-radius: 0.5em;
     width: 100%;
     height: 2.5em;
     padding-left: 1em;
-    margin-bottom: 1em;
+    background-color: inherit;
 }
 
 [data-bs-theme="dark"] .bottom-navbar {
@@ -370,10 +270,6 @@ body {
 
 [data-bs-theme="dark"] .bottom-navbar a{
     color: #cdcdcd;
-}
-
-[data-bs-theme="dark"] .item-card {
-    background-color: rgb(39, 39, 41);
 }
 
 [data-bs-theme="dark"] .ios-btn {
@@ -391,6 +287,7 @@ body {
 
 .ios-btn {
     background-color: #FFFFFF;
+    color: rgb(37,99,235);
     width: 100%;
 }
 
@@ -401,4 +298,56 @@ body {
 
 .ios-btn-red {
     color: rgb(254, 1, 25);
+    border: none;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+}
+
+.item-card h5 {
+    margin: 0;
+}
+
+.greeting-header {
+    width: 50%;
+}
+
+
+.income-and-expenses {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+hr.style-two {
+    border: 0; 
+    height: 1px; 
+    background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0); 
+    margin: .5em 0;
+}
+
+[data-bs-theme="dark"] hr.style-two {
+    border: 0; 
+    height: 1px; 
+    background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0); 
+    margin: .5em 0;
+}
+
+.items .title {
+    margin: 0 0 1em 0;
+}
+
+.float-button {
+    width: fit-content;
+    margin: 0 auto;
+    font-size: 3em;
 }

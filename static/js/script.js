@@ -18,19 +18,28 @@ if (window.matchMedia) {
     });
 }
 
-const togglePassword = document.querySelector('#togglePassword');
-const password = document.querySelector("#password");
+(function() {
+    const togglePasswordButton = document.querySelector('#togglePassword');
+    const passwordField = document.querySelector("#password");
 
-togglePassword.addEventListener('click', () => {
-    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-    password.setAttribute('type', type);
+    if (togglePasswordButton) {
+        togglePasswordButton.addEventListener('click', () => {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
 
-    if (type == 'text') {
-        togglePassword.classList.remove('bi-eye-slash');
-        togglePassword.classList.add('bi-eye');
-    } else {
-        togglePassword.classList.remove('bi-eye');
-        togglePassword.classList.add('bi-eye-slash');
+            if (type == 'text') {
+                togglePasswordButton.classList.remove('bi-eye-slash');
+                togglePasswordButton.classList.add('bi-eye');
+            } else {
+                togglePasswordButton.classList.remove('bi-eye');
+                togglePasswordButton.classList.add('bi-eye-slash');
+            }
+        });
     }
+})();
 
-})
+document.getElementById('form2').onsubmit = function(event) {
+    event.preventDefault()
+
+    this.submit()
+}

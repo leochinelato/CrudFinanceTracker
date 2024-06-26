@@ -99,26 +99,12 @@ def show_all_transactions_from_user(user_id):
     return transactions
 
 
-def get_user_first_name(user_id):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT fullname FROM users WHERE id = ?", (user_id,))
-    full_name = cursor.fetchone()
-
-    full_name = full_name[0]
-    first_name = full_name.split()[0]
-
-    conn.close()
-    return first_name.capitalize()
-
-
 def get_user_full_name(user_id):
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
     cursor.execute("SELECT fullname FROM users WHERE id = ?", (user_id,))
     full_name = cursor.fetchone()
-    full_name = full_name[0]
+    full_name = full_name[0].title()
 
     conn.close()
     return full_name

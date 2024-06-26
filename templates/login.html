@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form method="POST">
+<form method="POST" class="container">
     {% include "error.html" %}
     <div class="app-header login-page-header">
         <span>
@@ -11,20 +11,20 @@
     </div>
     <div class="login-page-body">
         <div class="mb-3">
-            <input class="input-login" type="text" id="inputuser" name="username" placeholder="Login">
+            <input class="input-ios" type="text" id="inputuser" name="username" placeholder="Login">
         </div>
         <div class="mb-3">
             <div class="password-box">
-                <input type="password" class="input-login" id="password" name="password" placeholder="Senha">
+                <input type="password" class="input-ios" id="password" name="password" placeholder="Senha">
                 <i class="bi bi-eye-slash" id="togglePassword"></i>
             </div>
         </div>
         <input type="hidden" name="next" value="{{ request.args.get('next', '') }}">
     </div>
     <div class="buttons-login-page">
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn ios-btn ios-btn-blue">Login</button>
         <a href="{{ url_for('sign_up') }}">
-            <button type="button" class="btn btn-outline-secondary">Cadastrar-se</button>
+            <button type="button" class="btn ios-btn">Cadastrar-se</button>
         </a>
     </div>
 </form>

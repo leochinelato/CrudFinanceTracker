@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form method="POST">
+<form method="POST" class="container">
     <div class="app-header login-page-header">
         <span>
             <h3>😁</h3> Faça seu cadastro.
@@ -10,21 +10,21 @@
     </div>
     <div class="login-page-body">
         <div class="mb-3">
-            <input type="text" class="input-login" id="inputuser" name="username" placeholder="Login">
+            <input type="text" class="input-ios" id="inputuser" name="username" placeholder="Login">
         </div>
         <div class="mb-3">
-            <input type="text" name="fullname" id="inputname" class="input-login" placeholder="Nome Completo">
+            <input type="text" name="fullname" id="inputname" class="input-ios" placeholder="Nome Completo">
         </div>
         <div class="mb-3">
             <div class="password-box">
-                <input type="password" class="input-login" id="password" name="password" placeholder="Senha">
+                <input type="password" class="input-ios" id="password" name="password" placeholder="Senha">
                 <i class="bi bi-eye-slash" id="togglePassword"></i>
             </div>
         </div>
         <div class="buttons-login-page">
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
+            <button type="submit" class="btn ios-btn ios-btn-blue">Cadastrar</button>
             <a href="{{ url_for('login') }}">
-                <button type="button" class="btn btn-outline-secondary" onclick="showPassword()">Login</button>
+                <button type="button" class="btn ios-btn">Login</button>
             </a>
         </div>
     </div>

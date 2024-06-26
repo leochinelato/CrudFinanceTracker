@@ -1,67 +1,82 @@
 {% extends "template.html" %}
 {% block content %}
 
-<div class="app-header-container">
-  <div class="app-header">
-    <h5>{{ greeting }}</h5>
-
-    <div class="balance_card" role="alert">
-      <span>Saldo Total</span>
-      <h2>R$ {{ total_balance }}</h2>
+<div class="container">
+  <div class="app-header-container">
+    <div class="greeting-header">
+      <span>{{ greeting }}</span>
+      <h4>{{ full_name }}</h4>
     </div>
 
-    <div class="cards">
-      <div class="money_card incomes" role="alert">
-        <i class="bi bi-plus"></i>
-        <span>Receitas</span>
-        <h5>R$ {{ total_income }}</h5>
+    <div class="balance_card glass" role="alert">
+      <div class="total-balance">
+        <span>Saldo Total</span>
+        <h2>R$ {{ total_balance }}</h2>
       </div>
-      <div class="money_card expenses" role="alert">
-        <i class="bi bi-dash"></i>
-        <span>Despesas</span>
-        <h5>R$ {{ total_expense }}</h5>
+
+      <div class="income-and-expenses">
+        <div class="income-or-expense">
+          <i class="bi bi-arrow-up-circle-fill"></i>
+          <span>Receitas</span>
+          <h5>R$ {{ total_income }}</h5>
+        </div>
+
+        <div class="income-or-expense">
+          <i class="bi bi-arrow-down-circle-fill"></i>
+          <span>Despesas</span>
+          <h5>R$ {{ total_expense }}</h5>
+        </div>
+
       </div>
+
     </div>
   </div>
+
+  <div class="app-body app-body-home">
+    <div class="items">
+      <h5 class="title">Transações</h5>
+      {% if data %}
+      {% for item in data %}
+      <a href="{{ url_for('update_transaction', id=item.id) }}" class="item-card">
+        <div class="transaction-text">
+          <h5>{{ item.description }}</h5>
+          <span>{{ item.date }}</span>
+        </div>
+        <div class="transaction-value">
+          {% if item.type == 'income' %}
+          <h5 class="{{ 'income' if item.type == 'income' else 'expense' }}">+ R${{ item.value }}</h5>
+          {% else %}
+          <h5 class="{{ 'income' if item.type == 'income' else 'expense' }}">- R${{ item.value }}</h5>
+          {% endif %}
+        </div>
+        <!-- <div class="transaction-actions transaction-remove">
+          <form action="{{ url_for('delete_transaction') }}" method="POST">
+            <input type="hidden" name="id" value="{{ item.id }}">
+            <button type="submit">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </form>
+        </div> -->
+      </a>
+      <hr class="style-two">
+      <!-- <div class="transaction-actions transaction-edit">
+          <a href="{{ url_for('update_transaction', id=item.id) }}">
+            <button type="button"><i class="bi bi-pencil-fill"></i></button>
+          </a>
+        </div> -->
+      {% endfor %}
+      {% else %}
+      <span>Você ainda não possui transações. Use o botão no canto inferior direito para adicionar uma nova.</span>
+      {% endif %}
+    </div>
+  </div>
+  <a href="{{ url_for('create_new_transaction') }}" class="float-button">
+    <i class="bi bi-plus-circle-fill"></i>
+  </a>
 </div>
 
-<div class="container app-body">
-  <div class="items">
-    <h5>Transações</h5>
-    {% if not data %}
-    <span>Você ainda não possui transações. Use o botão no canto inferior direito para adicionar uma nova.</span>
-    {% endif %}
-    {% for item in data %}
-    <a href="{{ url_for('update_transaction', id=item.id) }}" class="item-card">
-      <div class="transaction-text">
-        <span>{{ item.date }}</span>
-        <h5>{{ item.description }}</h5>
-      </div>
-      <div class="transaction-value">
-        {% if item.type == 'income' %}
-        <span class="value-title {{ 'income' if item.type == 'income' else 'expense' }}">Receita</span>
-        {% else %}
-        <span class="value-title {{ 'income' if item.type == 'income' else 'expense' }}">Despesa</span>
-        {% endif %}
-        <h5 class="{{ 'income' if item.type == 'income' else 'expense' }}">R${{ item.value }}</h5>
-      </div>
-      <div class="transaction-actions transaction-remove">
-        <form action="{{ url_for('delete_transaction') }}" method="POST">
-          <input type="hidden" name="id" value="{{ item.id }}">
-          <button type="submit">
-            <i class="bi bi-trash3"></i>
-          </button>
-        </form>
-      </div>
-    </a>
-    <!-- <div class="transaction-actions transaction-edit">
-        <a href="{{ url_for('update_transaction', id=item.id) }}">
-          <button type="button"><i class="bi bi-pencil-fill"></i></button>
-        </a>
-      </div> -->
-    {% endfor %}
-  </div>
-</div>
+
+
 
 {% include "bottom_navbar.html" %}
 

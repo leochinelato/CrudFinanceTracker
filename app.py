@@ -21,7 +21,6 @@ from database import (
     get_expense_sum,
     update_line,
     get_by_id,
-    get_user_first_name,
     get_user_full_name,
     show_all_categories_from_user,
     create_new_category_in_db,
@@ -74,8 +73,8 @@ def logout():
 def index():
 
     user_id = session["user_id"]
-    first_name = get_user_first_name(user_id)
-    greeting = get_greeting(first_name)
+    full_name = get_user_full_name(user_id)
+    greeting = get_greeting()
     data = show_all_transactions_from_user(user_id)
     total_income, total_expense = get_income_sum(user_id), get_expense_sum(
         user_id
@@ -90,6 +89,7 @@ def index():
         total_balance=transform_dot_in_comma(total_balance),
         greeting=greeting,
         edit=True,
+        full_name=full_name
     )
 
 
