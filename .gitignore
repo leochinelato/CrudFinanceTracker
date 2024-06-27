@@ -1,1 +1,6 @@
 database.db
+node_modules
+.vscode
+__pycache__
+venv/
+.venv

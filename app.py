@@ -80,6 +80,7 @@ def index():
         user_id
     )
     total_balance = total_income - total_expense
+    print(data)
 
     return render_template(
         "index.html",
@@ -109,6 +110,7 @@ def create_new_transaction():
             value = float(request.form["value"])
             date = request.form["date"]
             type = request.form["type"]
+            category = request.form["category"]
         except ValueError:
             flash(f"Erro ao cadastrar a transação: 'Valor' Deve ser numérico.", "error")
             return redirect(url_for("form_new_item"))
@@ -119,9 +121,12 @@ def create_new_transaction():
             value=value,
             date=date,
             type=type,
+            category=category
         )
         return redirect(url_for("index"))
-    return render_template("form_new_item.html")
+
+    categories = show_all_categories_from_user(session["user_id"])
+    return render_template("form_new_item.html", categories=categories)
 
 
 @ app.route("/update/<int:id>", methods=["POST", "GET"])
@@ -132,11 +137,13 @@ def update_transaction(id):
             description = request.form["description"]
             value = float(request.form["value"])
             date = request.form["date"]
+            category = request.form["category"]
         except:
             flash(f"Erro ao editar a transação: 'Valor' Deve ser numérico.", "error")
             return redirect(url_for("form_edit_transaction", transaction_id=id))
 
-        edited_transaction = update_line(description, value, date, id)
+        edited_transaction = update_line(
+            description, value, date, category, id)
 
         return redirect(url_for("index"))
 
@@ -150,7 +157,8 @@ def update_transaction(id):
         "type": transaction[5],
     }
 
-    return render_template("form_new_item.html", transaction=transaction)
+    categories = show_all_categories_from_user(session["user_id"])
+    return render_template("form_new_item.html", transaction=transaction, categories=categories)
 
 
 @ app.route("/delete", methods=["POST"])
@@ -173,6 +181,7 @@ def show_user_profile():
 @login_required
 def show_categories():
     user_id = session["user_id"]
+    transactions = show_all_transactions_from_user(user_id)
     categories = show_all_categories_from_user(user_id)
 
     return render_template("categories.html", categories=categories)

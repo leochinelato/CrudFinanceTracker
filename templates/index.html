@@ -4,8 +4,13 @@
 <div class="container">
   <div class="app-header-container">
     <div class="greeting-header">
-      <span>{{ greeting }}</span>
-      <h4>{{ full_name }}</h4>
+      <div class="left-greeting-header">
+        <span>{{ greeting }}</span>
+        <h4>{{ full_name }}</h4>
+      </div>
+      <div class="right-greeting-header">
+        <button class="btn" id="dark-mode-toggle"></button>
+      </div>
     </div>
 
     <div class="balance_card glass" role="alert">
@@ -40,7 +45,7 @@
       <a href="{{ url_for('update_transaction', id=item.id) }}" class="item-card">
         <div class="transaction-text">
           <h5>{{ item.description }}</h5>
-          <span>{{ item.date }}</span>
+          <span class="transaction-span">{{ item.category }}</span>
         </div>
         <div class="transaction-value">
           {% if item.type == 'income' %}
@@ -48,6 +53,7 @@
           {% else %}
           <h5 class="{{ 'income' if item.type == 'income' else 'expense' }}">- R${{ item.value }}</h5>
           {% endif %}
+          <span class="transaction-span">{{ item.date }}</span>
         </div>
         <!-- <div class="transaction-actions transaction-remove">
           <form action="{{ url_for('delete_transaction') }}" method="POST">
@@ -66,7 +72,7 @@
         </div> -->
       {% endfor %}
       {% else %}
-      <span>Você ainda não possui transações. Use o botão no canto inferior direito para adicionar uma nova.</span>
+      <span>Você ainda não possui transações. Use o botão abaixo para adicionar uma nova.</span>
       {% endif %}
     </div>
   </div>

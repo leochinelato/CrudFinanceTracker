@@ -25,13 +25,17 @@
                     required {% if transaction %} value="{{ transaction.amount }}" {% endif %}>
             </div>
 
-            <!-- <div class="input-field">
+            <div class="input-field">
                 <select name="category" id="transaction-category" class="transaction-category input-ios"
-                    class="placeholder" required disabled>
-                    <option value="" disabled selected>Categoria (em desenvolvimento)</option>
-                    <option value="1">1</option>
+                    class="placeholder" required>
+                    <option value="" disabled {% if not transaction %} selected {% endif %}>Categoria</option>
+                    {% for c in categories %}
+                    <option value="{{ c.name }}" {% if transaction and transaction.category==c.name %}selected{% endif
+                        %}>{{ c.name }}
+                    </option>
+                    {% endfor %}
                 </select>
-            </div> -->
+            </div>
 
             <div class="input-field">
                 <input type="date" id="transaction-date" name="date" class="input-ios" required {% if transaction %}
@@ -68,9 +72,8 @@
         <button type="submit" class="btn ios-btn ios-btn-red">Excluir Transação</button>
     </form>
 
+    {% endif %}
 </div>
-{% endif %}
 
-{% include "bottom_navbar.html" %}
 
 {% endblock %}

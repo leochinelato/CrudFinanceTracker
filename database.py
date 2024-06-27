@@ -86,6 +86,7 @@ def show_all_transactions_from_user(user_id):
             "value": transform_dot_in_comma(t[3]),
             "date": datetime.strptime(t[4], "%Y-%m-%d").strftime("%d/%m/%Y"),
             "type": t[5],
+            "category": t[6],
         }
         for t in transactions
     ]
@@ -116,11 +117,6 @@ def create_new_category_in_db(category_name, user_id):
     cursor.execute(
         "INSERT INTO categories (name, user_id) VALUES (?,?)", (category_name, user_id))
 
-    #     cursor.execute(
-    #     "INSERT INTO users (username, fullname, password) VALUES (?,?,?)", (
-    #         username, fullname, password)
-    # )
-
     conn.commit()
     conn.close()
 
@@ -145,29 +141,29 @@ def show_all_categories_from_user(user_id):
     return categories
 
 
-def store_db(description, user_id, value, date, type):
+def store_db(description, user_id, value, date, type, category):
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
     cursor.execute(
         """
-    INSERT INTO transactions (user_id, description,value,date,type)
-    VALUES (?,?,?,?,?)
+    INSERT INTO transactions (user_id, description,value,date,type,category)
+    VALUES (?,?,?,?,?,?)
     """,
-        (user_id, description, value, date, type),
+        (user_id, description, value, date, type, category),
     )
 
     conn.commit()
     conn.close()
 
 
-def update_line(description, value, date, id):
+def update_line(description, value, date, category, id):
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
     cursor.execute(
-        f"UPDATE transactions SET description = ?, value = ?, date = ? WHERE id = ?",
-        (description, value, date, id),
+        f"UPDATE transactions SET description = ?, value = ?, date = ?, category = ? WHERE id = ?",
+        (description, value, date, category, id),
     )
     conn.commit()
     conn.close()
