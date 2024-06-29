@@ -1,0 +1,29 @@
+{% extends "template.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="app-header-container">
+        <div class="greeting-header">
+            <h3>Gastos por Categoria</h3>
+        </div>
+    </div>
+    <div class="app-body">
+
+
+        <div class="items">
+            <a href="{{ url_for('show_all_categories') }}">
+                <button class="btn ios-btn ios-btn-blue">
+                    Ver todas as categorias
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+{% include "bottom_navbar.html" %}
+
+
+{% endblock %}

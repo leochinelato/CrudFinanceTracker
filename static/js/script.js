@@ -1,15 +1,13 @@
 function updateTheme(isDarkMode) {
     const toggleButton = document.querySelector("#dark-mode-toggle")
-    if (toggleButton) {
-        if (isDarkMode) {
-            document.documentElement.setAttribute('data-bs-theme', 'dark')
-            toggleButton.classList.remove('bi-moon-fill')
-            toggleButton.classList.add('bi-brightness-high-fill')
-        } else {
-            document.documentElement.removeAttribute('data-bs-theme')
-            toggleButton.classList.remove('bi-brightness-high-fill')
-            toggleButton.classList.add('bi-moon-fill')
-        }
+    if (isDarkMode) {
+        document.documentElement.setAttribute('data-bs-theme', 'dark')
+        toggleButton.classList.remove('bi-moon-fill')
+        toggleButton.classList.add('bi-brightness-high-fill')
+    } else {
+        document.documentElement.removeAttribute('data-bs-theme')
+        toggleButton.classList.remove('bi-brightness-high-fill')
+        toggleButton.classList.add('bi-moon-fill')
     }
 }
 
@@ -68,4 +66,3 @@ if (window.matchMedia) {
         });
     }
 })();
-

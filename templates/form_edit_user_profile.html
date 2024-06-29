@@ -1,0 +1,35 @@
+{% extends "template.html" %}
+
+{% block content %}
+
+<form action="{{ url_for('edit_profile', id=user.id) }}" method="POST" class="create_form">
+
+    <div class="container">
+        <div class="app-header-container">
+            <div class="user-profile">
+                <i class="bi bi-person-circle"></i>
+                <p>Editar seu perfil</p>
+            </div>
+        </div>
+        <div class="app-body">
+            <div class="input-field">
+                <input type="text" id="username" name="username" class="input-ios" placeholder="Username" required
+                    value="{{ user.username }}">
+            </div>
+            <div class="input-field">
+                <input type="text" id="fullname" name="fullname" class="input-ios" placeholder="Nome Completo" required
+                    value="{{ user.fullname }}">
+            </div>
+            <div class="buttons">
+                <button type="submit" class="btn ios-btn ios-btn-blue">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+
+{% include "bottom_navbar.html" %}
+
+{% endblock %}

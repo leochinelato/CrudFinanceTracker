@@ -39,9 +39,14 @@
 
   <div class="app-body app-body-home">
     <div class="items">
-      <h5 class="title">Transações</h5>
+      <div class="items-title">
+        <h5 class="title">Transações Recentes</h5>
+        <a href="#">
+          <span>Ver todas</span>
+        </a>
+      </div>
       {% if data %}
-      {% for item in data %}
+      {% for item in data[:3] %}
       <a href="{{ url_for('update_transaction', id=item.id) }}" class="item-card">
         <div class="transaction-text">
           <h5>{{ item.description }}</h5>

@@ -137,7 +137,6 @@ body {
     background: linear-gradient(35deg, rgba(242,242,246) 0%, rgba(242,242,246) 63%, rgba(0,212,255,0.5984987745098039) 100%);
     padding-top: 2em;
     height: 100vh;
-    transition: background-color 0.1s ease, color 0.1s ease!important;
 }
 
 
@@ -184,7 +183,6 @@ body {
     background-color: inherit;
     color: #727272;
     font-size: 30px;
-    transition: color 0.1s ease;
 }
 
 .navbar-button{
@@ -369,6 +367,37 @@ hr.style-two {
     background-color: inherit;
 }
 
-* {
-    transition: background-color 0.1s ease, color 0.1s ease;
+.bar-container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+}
+.bar {
+    height: 25px;
+    margin: 5px 0;
+    background-color: #ddd;
+    position: relative;
+}
+.bar-fill {
+    height: 100%;
+    position: absolute;
+}
+.bar-label {
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    font-weight: bold;
+}
+
+.items-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.items-title a {
+    border: .1px solid;
+    padding: .4em;
+    border-radius: .3em;
 }

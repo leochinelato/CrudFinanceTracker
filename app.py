@@ -9,6 +9,7 @@ from flask import (
     flash,
     get_flashed_messages,
     session,
+    send_file
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import (
@@ -24,9 +25,13 @@ from database import (
     get_user_full_name,
     show_all_categories_from_user,
     create_new_category_in_db,
+    edit_user_profile,
+    get_user_by_id
 )
 from utils.utils import transform_dot_in_comma, get_greeting
 from decorators import login_required
+from pie_chart.pie import categories_and_values
+
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET KEY", os.urandom(12).hex())
@@ -80,7 +85,6 @@ def index():
         user_id
     )
     total_balance = total_income - total_expense
-    print(data)
 
     return render_template(
         "index.html",
@@ -173,13 +177,50 @@ def delete_transaction():
 @app.route("/profile")
 @login_required
 def show_user_profile():
-    full_name = get_user_full_name(session["user_id"])
-    return render_template("profile.html", full_name=full_name)
+    user_id = session["user_id"]
+    full_name = get_user_full_name(user_id)
+    return render_template("profile.html", full_name=full_name, user_id=user_id)
+
+
+@app.route("/profile/edit/<int:id>", methods=["POST", "GET"])
+@login_required
+def edit_profile(id):
+    if request.method == "POST":
+        user_id = session["user_id"]
+        username = request.form["username"]
+        fullname = request.form["fullname"]
+
+        edited_profile = edit_user_profile(username, fullname, user_id)
+        return redirect(url_for('show_user_profile'))
+
+    user = get_user_by_id(id)
+
+    user = {
+        "id": user[0],
+        "username": user[1],
+        "fullname": user[2],
+        "password": user[3],
+    }
+
+    return render_template("form_edit_user_profile.html", user=user)
 
 
 @app.route("/categories")
 @login_required
 def show_categories():
+    user_id = session["user_id"]
+    transactions = show_all_transactions_from_user(user_id)
+    categories = show_all_categories_from_user(user_id)
+
+    categories_plot, values_plot, percentages = categories_and_values(
+        transactions, categories)
+
+    return render_template("spend_by_categories.html", categories=categories_plot, values=values_plot, percentages=percentages)
+
+
+@app.route("/categories/all", methods=["POST", "GET"])
+@login_required
+def show_all_categories():
     user_id = session["user_id"]
     transactions = show_all_transactions_from_user(user_id)
     categories = show_all_categories_from_user(user_id)
@@ -199,5 +240,15 @@ def create_new_category():
     return render_template("form_new_category.html")
 
 
+@app.route("/manifest.json")
+def serve_manifest():
+    return send_file('manifest.json', mimetype='application/manifest+json')
+
+
+@app.route('/sw.js')
+def serve_sw():
+    return send_file('sw.js', mimetype='application/javascript')
+
+
 if __name__ == "__main__":
-    app.run(port=8000, debug=True)
+    app.run(host="192.168.15.10", port=8000, debug=True)

@@ -62,6 +62,28 @@ def register_new_user(username, fullname, password):
     conn.close()
 
 
+def edit_user_profile(username, fullname, id):
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute(
+        f"UPDATE users SET username = ?, fullname = ? WHERE id = ?",
+        (username, fullname, id),
+    )
+    conn.commit()
+    conn.close()
+
+
+def get_user_by_id(id):
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM users WHERE id = ?", (id,))
+    user = cursor.fetchone()
+    conn.close()
+    return user
+
+
 def check_if_user_is_registered(username):
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
