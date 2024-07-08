@@ -401,3 +401,18 @@ hr.style-two {
     padding: .4em;
     border-radius: .3em;
 }
+
+.month-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    margin-bottom: 2em;
+}
+
+.month-nav button {
+    border: none;
+    cursor: pointer;
+    padding: .5em;
+    border-radius: 5px;
+}

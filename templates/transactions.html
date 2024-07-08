@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="app-body app-body-home">
+        <div class="items">
+            <div class="items-title">
+                <h5 class="title">Transações</h5>
+            </div>
+            {% if transactions %}
+            <div class="month-nav">
+                <button class="prevMonth glass">
+                    <i class="bi bi-arrow-left"></i>
+                </button>
+                <span class="currentMonth">Mês atual</span>
+                <button class="nextMonth glass">
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+            </div>
+            <div id="transactionsList">
+                {% for item in transactions %}
+                <a href="{{ url_for('transaction.update_transaction', id=item.id) }}" class="item-card">
+                    <div class="transaction-text">
+                        <h5>{{ item.description }}</h5>
+                        <span class="transaction-span">{{ item.category }}</span>
+                    </div>
+                    <div class="transaction-value">
+                        {% if item.type == 'income' %}
+                        <h5 class="{{ 'income' if item.type == 'income' else 'expense' }}">+ R${{ item.value }}</h5>
+                        {% else %}
+                        <h5 class="{{ 'income' if item.type == 'income' else 'expense' }}">- R${{ item.value }}</h5>
+                        {% endif %}
+                        <span class="transaction-span">{{ item.date }}</span>
+                    </div>
+                </a>
+                <hr class="style-two">
+                {% endfor %}
+            </div>
+            {% else %}
+            <span>Você ainda não possui transações. Use o botão abaixo para adicionar uma nova.</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% include "bottom_navbar.html" %}

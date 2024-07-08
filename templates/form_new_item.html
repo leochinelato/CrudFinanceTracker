@@ -6,8 +6,8 @@
 <div class="container">
 
 
-    <form {% if transaction %} action="{{ url_for('update_transaction', id=transaction.id) }}" {% else %}
-        action="{{ url_for('create_new_transaction') }}" {% endif %} method="POST" class="create_form">
+    <form {% if transaction %} action="{{ url_for('transaction.update_transaction', id=transaction.id) }}" {% else %}
+        action="{{ url_for('transaction.create_new_transaction') }}" {% endif %} method="POST" class="create_form">
 
         {% include "error.html" %}
         <div class="app-header-container">
@@ -27,7 +27,7 @@
 
             <div class="input-field">
                 <select name="category" id="transaction-category" class="transaction-category input-ios"
-                    class="placeholder" required>
+                    class="placeholder">
                     <option value="" disabled {% if not transaction %} selected {% endif %}>Categoria</option>
                     {% for c in categories %}
                     <option value="{{ c.name }}" {% if transaction and transaction.category==c.name %}selected{% endif
@@ -58,7 +58,7 @@
 
 
 
-                <a href="{{ url_for('index') }}">
+                <a href="{{ url_for('transaction.index') }}">
                     <button type="button" class="btn ios-btn">Voltar</button>
                 </a>
             </div>
@@ -67,7 +67,7 @@
 
     {% if transaction %}
 
-    <form action="{{ url_for('delete_transaction') }}" method="POST" id="form2">
+    <form action="{{ url_for('transaction.delete_transaction') }}" method="POST" id="form2">
         <input type="hidden" name="id" value="{{ transaction.id }}">
         <button type="submit" class="btn ios-btn ios-btn-red">Excluir Transação</button>
     </form>

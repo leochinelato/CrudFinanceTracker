@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action="{{ url_for('edit_profile', id=user.id) }}" method="POST" class="create_form">
+<form action="{{ url_for('user.edit_profile', id=user.id) }}" method="POST" class="create_form">
 
     <div class="container">
         <div class="app-header-container">

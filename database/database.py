@@ -1,11 +1,11 @@
 import sqlite3
 from datetime import datetime
 from utils.utils import transform_dot_in_comma
+from db_utils import get_db_connection, close_db_connection
 
 
 def create_tables():
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
 
     cursor.execute(
         """
@@ -40,43 +40,82 @@ def create_tables():
         id INTEGER PRIMARY KEY,
         name VARCHAR(100),
         user_id INTEGER,
+        total_value REAL DEFAULT 0,
         FOREIGN KEY (user_id) REFERENCES users(id)
     )
         """
     )
 
-    conn.commit()
-    conn.close()
+    close_db_connection(conn)
+
+
+def create_triggers():
+    conn, cursor = get_db_connection()
+
+    cursor.execute("""
+        CREATE TRIGGER IF NOT EXISTS update_category_total_on_insert
+        AFTER INSERT ON transactions
+        FOR EACH ROW
+        BEGIN
+            UPDATE categories
+            SET total_value = total_value + NEW.value
+            WHERE name = NEW.category;
+        END;
+    """)
+
+    cursor.execute("""
+        CREATE TRIGGER IF NOT EXISTS update_category_total_on_update
+        AFTER UPDATE OF value, category on transactions
+        FOR EACH ROW
+        BEGIN
+            UPDATE categories
+            SET total_value = total_value = OLD.value
+            WHERE name = OLD.category;
+
+            UPDATE categories
+            SET total_value = total_value + NEW.value
+            WHERE name = NEW.category;
+        END;
+    """)
+
+    cursor.execute("""
+        CREATE TRIGGER IF NOT EXISTS update_category_total_on_delete
+        AFTER DELETE ON transactions
+        FOR EACH ROW
+        BEGIN
+            UPDATE categories
+            SET total_value = total_value - OLD.value
+            WHERE name = OLD.category;
+        END;
+    """)
+
+    close_db_connection(conn)
 
 
 def register_new_user(username, fullname, password):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
 
     cursor.execute(
         "INSERT INTO users (username, fullname, password) VALUES (?,?,?)", (
             username, fullname, password)
     )
 
-    conn.commit()
-    conn.close()
+    close_db_connection(conn)
 
 
 def edit_user_profile(username, fullname, id):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
 
     cursor.execute(
         f"UPDATE users SET username = ?, fullname = ? WHERE id = ?",
         (username, fullname, id),
     )
-    conn.commit()
-    conn.close()
+
+    close_db_connection(conn)
 
 
 def get_user_by_id(id):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
 
     cursor.execute("SELECT * FROM users WHERE id = ?", (id,))
     user = cursor.fetchone()
@@ -85,8 +124,7 @@ def get_user_by_id(id):
 
 
 def check_if_user_is_registered(username):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
 
     cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
     user = cursor.fetchone()
@@ -95,8 +133,7 @@ def check_if_user_is_registered(username):
 
 
 def show_all_transactions_from_user(user_id):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
 
     cursor.execute("SELECT * FROM transactions WHERE user_id = ?", (user_id,))
     transactions = cursor.fetchall()
@@ -123,8 +160,7 @@ def show_all_transactions_from_user(user_id):
 
 
 def get_user_full_name(user_id):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
     cursor.execute("SELECT fullname FROM users WHERE id = ?", (user_id,))
     full_name = cursor.fetchone()
     full_name = full_name[0].title()
@@ -134,18 +170,16 @@ def get_user_full_name(user_id):
 
 
 def create_new_category_in_db(category_name, user_id):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
+
     cursor.execute(
         "INSERT INTO categories (name, user_id) VALUES (?,?)", (category_name, user_id))
 
-    conn.commit()
-    conn.close()
+    close_db_connection(conn)
 
 
 def show_all_categories_from_user(user_id):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
 
     cursor.execute("SELECT * FROM categories WHERE user_id = ?", (user_id,))
     categories = cursor.fetchall()
@@ -154,6 +188,7 @@ def show_all_categories_from_user(user_id):
         {
             "id": c[0],
             "name": c[1],
+            "total_value": c[3],
         }
         for c in categories
     ]
@@ -164,8 +199,7 @@ def show_all_categories_from_user(user_id):
 
 
 def store_db(description, user_id, value, date, type, category):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
 
     cursor.execute(
         """
@@ -175,25 +209,23 @@ def store_db(description, user_id, value, date, type, category):
         (user_id, description, value, date, type, category),
     )
 
-    conn.commit()
-    conn.close()
+    close_db_connection(conn)
 
 
 def update_line(description, value, date, category, id):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
 
     cursor.execute(
         f"UPDATE transactions SET description = ?, value = ?, date = ?, category = ? WHERE id = ?",
         (description, value, date, category, id),
     )
-    conn.commit()
-    conn.close()
+
+    close_db_connection(conn)
 
 
 def remove_line(id):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
+
     try:
         query = f"DELETE FROM transactions WHERE id = ?"
         cursor.execute(query, (id,))
@@ -201,13 +233,11 @@ def remove_line(id):
     except sqlite3.Error as e:
         print(f"Error removing transaction: {e}")
     finally:
-        cursor.close()
-        conn.close()
+        close_db_connection(conn)
 
 
 def get_by_id(id):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
 
     cursor.execute(f"SELECT * FROM transactions WHERE id = ?", (id,))
     registry = cursor.fetchone()
@@ -216,8 +246,7 @@ def get_by_id(id):
 
 
 def get_income_sum(user_id):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
 
     cursor.execute(
         """SELECT SUM(value) AS total_income
@@ -235,8 +264,7 @@ def get_income_sum(user_id):
 
 
 def get_expense_sum(user_id):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    conn, cursor = get_db_connection()
 
     cursor.execute(
         """SELECT SUM(value) AS total_expenses
@@ -253,4 +281,6 @@ def get_expense_sum(user_id):
     return total_expenses[0] if total_expenses[0] else 0
 
 
-create_tables()
+def setup_database():
+    create_tables()
+    create_triggers()

@@ -10,10 +10,10 @@
         </div>
 
         <div class="user-actions">
-            <a href="{{ url_for('edit_profile', id=user_id) }}">
+            <a href="{{ url_for('user.edit_profile', id=user_id) }}">
                 <button class="user-button">Editar perfil</button>
             </a>
-            <a href="{{ url_for('logout') }}">
+            <a href="{{ url_for('user.logout') }}">
                 <button class="user-button logout-button">Finalizar Sessão</button>
             </a>
         </div>

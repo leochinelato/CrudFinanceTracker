@@ -3,24 +3,24 @@
 {% block content %}
 
 <div class="bottom-navbar">
-    <a href="{{ url_for('index') }}" class="navbar-button">
+    <a href="{{ url_for('transaction.index') }}" class="navbar-button">
         <i class="bi bi-house"></i>
         <span>Ínicio</span>
     </a>
 
-    <a href="{{ url_for('index') }}" class="navbar-button">
+    <a href="{{ url_for('transaction.show_transactions') }}" class="navbar-button">
         <i class="bi bi-bar-chart"></i>
         <span>Transações</span>
     </a>
 
-    <a href="{{ url_for('show_categories') }}" class="navbar-button">
+    <a href="{{ url_for('category.show_categories') }}" class="navbar-button">
         <i class="bi bi-list-ul"></i>
         <span>Categorias</span>
     </a>
 
 
 
-    <a href="{{ url_for('show_user_profile') }}" class="navbar-button">
+    <a href="{{ url_for('user.show_user_profile') }}" class="navbar-button">
         <i class="bi bi-person-circle"></i>
         <span>Perfil</span>
     </a>

@@ -4,7 +4,7 @@
 
 
 
-<form action="{{ url_for('create_new_category') }}" method="POST" class="create_form container">
+<form action="{{ url_for('category.create_new_category') }}" method="POST" class="create_form container">
 
     {% include "error.html" %}
     <div class="app-header">
@@ -29,7 +29,7 @@
 
 
         <!-- {% endif %} -->
-        <a href="{{ url_for('show_categories') }}">
+        <a href="{{ url_for('category.show_categories') }}">
             <button type="button" class="btn ios-btn">Voltar</button>
         </a>
     </div>

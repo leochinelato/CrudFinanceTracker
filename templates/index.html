@@ -41,13 +41,13 @@
     <div class="items">
       <div class="items-title">
         <h5 class="title">Transações Recentes</h5>
-        <a href="#">
+        <a href="{{ url_for('transaction.show_transactions') }}" class="glass">
           <span>Ver todas</span>
         </a>
       </div>
       {% if data %}
       {% for item in data[:3] %}
-      <a href="{{ url_for('update_transaction', id=item.id) }}" class="item-card">
+      <a href="{{ url_for('transaction.update_transaction', id=item.id) }}" class="item-card">
         <div class="transaction-text">
           <h5>{{ item.description }}</h5>
           <span class="transaction-span">{{ item.category }}</span>
@@ -60,28 +60,15 @@
           {% endif %}
           <span class="transaction-span">{{ item.date }}</span>
         </div>
-        <!-- <div class="transaction-actions transaction-remove">
-          <form action="{{ url_for('delete_transaction') }}" method="POST">
-            <input type="hidden" name="id" value="{{ item.id }}">
-            <button type="submit">
-              <i class="bi bi-trash3"></i>
-            </button>
-          </form>
-        </div> -->
       </a>
       <hr class="style-two">
-      <!-- <div class="transaction-actions transaction-edit">
-          <a href="{{ url_for('update_transaction', id=item.id) }}">
-            <button type="button"><i class="bi bi-pencil-fill"></i></button>
-          </a>
-        </div> -->
       {% endfor %}
       {% else %}
       <span>Você ainda não possui transações. Use o botão abaixo para adicionar uma nova.</span>
       {% endif %}
     </div>
   </div>
-  <a href="{{ url_for('create_new_transaction') }}" class="float-button">
+  <a href="{{ url_for('transaction.create_new_transaction') }}" class="float-button">
     <i class="bi bi-plus-circle-fill"></i>
   </a>
 </div>
@@ -90,8 +77,5 @@
 
 
 {% include "bottom_navbar.html" %}
-
-
-</div>
 
 {% endblock %}
