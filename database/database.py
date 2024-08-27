@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime
 from utils.utils import transform_dot_in_comma
-from db_utils import get_db_connection, close_db_connection
+from database.db_utils import get_db_connection, close_db_connection
 
 
 def create_tables():

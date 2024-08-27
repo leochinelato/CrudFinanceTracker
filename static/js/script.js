@@ -66,3 +66,18 @@ if (window.matchMedia) {
         });
     }
 })();
+
+const transactionCards = document.querySelectorAll(".item-card");
+
+function showActions(card) {
+    if (card.classList.contains("actions")) {
+        card.classList.remove("actions");
+    } else {
+        transactionCards.forEach(c => c.classList.remove("actions"));        
+        card.classList.add("actions");
+    }
+}
+
+transactionCards.forEach(card => {
+    card.addEventListener("click", () => showActions(card));
+});

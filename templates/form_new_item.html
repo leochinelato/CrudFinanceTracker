@@ -10,7 +10,7 @@
         action="{{ url_for('transaction.create_new_transaction') }}" {% endif %} method="POST" class="create_form">
 
         {% include "error.html" %}
-        <div class="app-header-container">
+        <div class="app-header-container edit-item-header">
             <h3>{% if transaction %} Editar Transação {% else %} Cadastrar nova Transação {% endif %}</h3>
         </div>
         <div class="app-body">
@@ -65,14 +65,6 @@
         </div>
     </form>
 
-    {% if transaction %}
-
-    <form action="{{ url_for('transaction.delete_transaction') }}" method="POST" id="form2">
-        <input type="hidden" name="id" value="{{ transaction.id }}">
-        <button type="submit" class="btn ios-btn ios-btn-red">Excluir Transação</button>
-    </form>
-
-    {% endif %}
 </div>
 
 

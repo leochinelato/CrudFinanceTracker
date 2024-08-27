@@ -1,6 +1,6 @@
 {
     "name": "FinanceTracker",
-    "short_name": "FPWA",
+    "short_name": "Finance",
     "start_url": "/",
     "scope": "/",
     "display": "standalone",

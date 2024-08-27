@@ -15,6 +15,7 @@
     flex-direction: column;
     gap: 2em;
     margin-top: 2.5em;
+    overflow: hidden;
 }
 
 .app-header-container {
@@ -85,10 +86,13 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    overflow-x: hidden!important;
+    width: 120vw;
+    transition: transform 0.3s;
 }
 
 .transaction-text {
-    width: 50%!important;
+    width: 40%!important;
     overflow: hidden;
     position: relative;
     left: 10px;
@@ -129,12 +133,10 @@ a {
 
 [data-bs-theme="dark"] body {
     background:rgb(28,28,30);
-    background: linear-gradient(35deg, rgb(28,28,30) 0%, rgb(28,28,30) 70%, rgba(121, 120, 120, 0.657) 100%);
 }
 
 body {
     background: rgb(242,242,246);
-    background: linear-gradient(35deg, rgba(242,242,246) 0%, rgba(242,242,246) 63%, rgba(0,212,255,0.5984987745098039) 100%);
     padding-top: 2em;
     height: 100vh;
 }
@@ -169,20 +171,22 @@ body {
     position: fixed;
     bottom: 0;
     width: 100%;
+    height: 7em;
     background-color: #FFFFFF;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    align-items: center;
+    align-items: start;
     padding-bottom: 30px;
     padding-top: 1em;
+    border-top: 1px solid rgba(125, 125, 125, 0.258);
 }
 
 .bottom-navbar a {
     border: none;
     background-color: inherit;
     color: #727272;
-    font-size: 30px;
+    font-size: 2em;
 }
 
 .navbar-button{
@@ -194,7 +198,7 @@ body {
 }
 
 .navbar-button span {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
 }
 
 .bottom-navbar a i{
@@ -245,6 +249,7 @@ body {
     align-items: baseline;
     gap: 1em;
     padding-bottom: 0.2em;
+    margin-bottom: 1rem;
 }
 
 .input-field input, select {
@@ -397,8 +402,7 @@ hr.style-two {
 }
 
 .items-title a {
-    border: .1px solid;
-    padding: .4em;
+    padding: .4em .6em;
     border-radius: .3em;
 }
 
@@ -415,4 +419,42 @@ hr.style-two {
     cursor: pointer;
     padding: .5em;
     border-radius: 5px;
+}
+
+.actions {
+    transform: translateX(-120px);
+}
+
+.transaction-actions {
+    display: flex;
+    gap: .5rem;
+}
+
+.transaction-action i {
+    font-size: 1.5rem!important;
+    line-height: 2.25rem!important;
+}
+
+.transaction-action {
+    background: rgba(255, 255, 255, 0.07);
+    padding: .3rem .7rem;
+    border-radius: .3rem;
+    display: flex;
+    justify-content: center;
+}
+
+.delete-button {
+    border: none!important;
+    background-color: inherit!important;
+    padding: 0;
+    margin: 0;
+}
+
+.bi-chevron-right {
+    font-size: 1.3rem;
+    margin: 0 .3rem;
+}
+
+#form2 {
+    margin: 0;
 }

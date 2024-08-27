@@ -16,7 +16,7 @@
             </div>
             <div id="transactionsList">
                 {% for item in transactions %}
-                <a href="{{ url_for('transaction.update_transaction', id=item.id) }}" class="item-card">
+                <div href="{{ url_for('transaction.update_transaction', id=item.id) }}" class="item-card">
                     <div class="transaction-text">
                         <h5>{{ item.description }}</h5>
                         <span class="transaction-span">{{ item.category }}</span>
@@ -29,7 +29,23 @@
                         {% endif %}
                         <span class="transaction-span">{{ item.date }}</span>
                     </div>
-                </a>
+                    <i class="bi bi-chevron-right"></i>
+                    <div class="transaction-actions">
+                        <a href="{{ url_for('transaction.update_transaction', id=item.id) }}"
+                            class="transaction-action">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <div class="transaction-action">
+                            <form action="{{ url_for('transaction.delete_transaction') }}" method="POST" id="form2">
+                                <input type="hidden" name="id" value="{{ item.id }}">
+                                <button type="submit" class="delete-button">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <hr class="style-two">
                 {% endfor %}
             </div>
